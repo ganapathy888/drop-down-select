@@ -21,5 +21,10 @@ module.exports = {
   devServer: {
      contentBase: './build'
    },
+   module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+    ]
+  },
   plugins: [copyWebpack]
 };
