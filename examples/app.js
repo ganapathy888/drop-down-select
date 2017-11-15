@@ -1,7 +1,13 @@
+// Vendor Imports
 import React from 'react';
 
+// Local Imports
+import DropdownSelect from '../src';
+
 function App(props) {
-  return <h1>Hello, {props.name}</h1>;
+  return (
+    <DropdownSelect options={['first', 'second', 'third']} />
+  );
 }
 
 // Export
