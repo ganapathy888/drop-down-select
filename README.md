@@ -1,1 +1,3 @@
-# drop-down-select
+# dropdown-select
+
+A Dropdown Select Control for React JS

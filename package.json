@@ -1,0 +1,26 @@
+{
+  "name": "dropdown-select",
+  "version": "1.0.0",
+  "description": "A Dropdown Select Control for React JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ganapathy888/dropdown-select.git"
+  },
+  "keywords": [
+    "Dropdown",
+    "Select",
+    "Control",
+    "React",
+    "JS"
+  ],
+  "author": "Thanga Ganapathy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ganapathy888/dropdown-select/issues"
+  },
+  "homepage": "https://github.com/ganapathy888/dropdown-select#readme"
+}
