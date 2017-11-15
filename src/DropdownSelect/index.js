@@ -1,5 +1,8 @@
 // Vendor Imports
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+// Styles
 
 // Dropdown Select
 class DropdownSelect extends Component {
@@ -8,7 +11,10 @@ class DropdownSelect extends Component {
     this.state = {
       inputValue: '',
       options: [],
+      isOpen: false,
     };
+    this.handleInputClick = this.handleInputClick.bind(this);
+    this.handleOptionsBlur = this.handleOptionsBlur.bind(this);
     this.handleOptionClick = this.handleOptionClick.bind(this);
     this.renderOptions = this.renderOptions.bind(this);
     this.renderOption = this.renderOption.bind(this);
@@ -23,7 +29,21 @@ class DropdownSelect extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.isOpen) {
+      ReactDOM.findDOMNode(this.dropdown).focus();
+    }
+  }
+
   // Handlers
+  handleInputClick(event) {
+    this.setState({ isOpen: true });
+  }
+
+  handleOptionsBlur(event) {
+    this.setState({ isOpen: false });
+  }
+
   handleOptionClick(value) {
     this.setState({ inputValue: value });
   }
@@ -31,17 +51,28 @@ class DropdownSelect extends Component {
   // Render
   render() {
     return (
-      <div>
-        <input type="text" value={this.state.inputValue} />
-        <div>
-          { this.renderOptions() }
-        </div>
+      <div onClick={this.handleInputClick}>
+        <input
+          type="text"
+          value={this.state.inputValue}
+        />
+        { this.renderOptions() }
       </div>
     );
   }
 
   renderOptions() {
-    return this.state.options.map(this.renderOption);
+    const { isOpen } = this.state;
+
+    return (
+      <div
+        style={ { display: (isOpen)? 'block' : 'none' } }
+        onBlur={this.handleOptionsBlur}
+        tabIndex="1"
+        ref={(instance) => { this.dropdown = instance; }}>
+        { this.state.options.map(this.renderOption) }
+      </div>
+    );
   }
 
   renderOption(option, index) {
