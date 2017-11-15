@@ -3,6 +3,19 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 // Styles
+const dropdownStyles = {
+  input: {
+    height: '30px',
+    width: '100%',
+  },
+  optionsContainer: {
+    outline: 'none',
+    border: '1px solid #ccc',
+  },
+  optionsItem: {
+    padding: '10px',
+  }
+};
 
 // Dropdown Select
 class DropdownSelect extends Component {
@@ -45,14 +58,16 @@ class DropdownSelect extends Component {
   }
 
   handleOptionClick(value) {
-    this.setState({ inputValue: value });
+    this.setState({ inputValue: value, isOpen: false });
   }
 
   // Render
   render() {
     return (
-      <div onClick={this.handleInputClick}>
+      <div>
         <input
+          onClick={this.handleInputClick}
+          style={dropdownStyles.input}
           type="text"
           value={this.state.inputValue}
         />
@@ -63,10 +78,12 @@ class DropdownSelect extends Component {
 
   renderOptions() {
     const { isOpen } = this.state;
-
+    const styles = { ...dropdownStyles.optionsContainer,
+                     display: (isOpen)? 'block' : 'none'
+                   };
     return (
       <div
-        style={ { display: (isOpen)? 'block' : 'none' } }
+        style={styles}
         onBlur={this.handleOptionsBlur}
         tabIndex="1"
         ref={(instance) => { this.dropdown = instance; }}>
@@ -83,7 +100,10 @@ class DropdownSelect extends Component {
 
   renderStringOption(option, index) {
     return (
-      <div key={index} onClick={() => this.handleOptionClick(option)}>
+      <div
+        style={ dropdownStyles.optionsItem }
+        key={index}
+        onClick={() => this.handleOptionClick(option)}>
         { option }
       </div>
     );

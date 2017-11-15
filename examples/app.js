@@ -6,7 +6,9 @@ import DropdownSelect from '../src';
 
 function App(props) {
   return (
-    <DropdownSelect options={['first', 'second', 'third']} />
+    <div style={ {width: '300px'} }>
+      <DropdownSelect options={['first', 'second', 'third']} />
+    </div>
   );
 }
 
