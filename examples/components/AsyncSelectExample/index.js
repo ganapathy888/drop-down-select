@@ -6,6 +6,7 @@ class ContactForm extends Component {
   constructor(props) {
     super(props);
     this.fetchOptions = this.fetchOptions.bind(this);
+    this.renderField = this.renderField.bind(this);
   }
 
   // Handlers
@@ -26,6 +27,18 @@ class ContactForm extends Component {
     console.log(values);
   }
 
+  renderField(field) {
+    return (
+      <AsyncSelect
+        value={field.input.value}
+        onChange={(value) => field.input.onChange(value)}
+        fetchOptions={this.fetchOptions}
+        labelKey="name"
+        valueKey="id"
+        />
+    );
+  }
+
   // Render
   render() {
     const { handleSubmit } = this.props
@@ -33,14 +46,7 @@ class ContactForm extends Component {
       <form onSubmit={ handleSubmit(this.handleSubmit) }>
         <Field
           name="fruit"
-          component={
-            (props) => (<AsyncSelect
-                          {...props}
-                          fetchOptions={this.fetchOptions}
-                          labelKey="name"
-                          valueKey="id"
-                          />)
-          }
+          component={this.renderField}
           />
         <button type="submit">Submit</button>
       </form>
