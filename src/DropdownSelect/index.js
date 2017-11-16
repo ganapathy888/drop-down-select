@@ -25,13 +25,16 @@ class DropdownSelect extends Component {
       inputValue: '',
       options: [],
       isOpen: false,
+      isOptionSelected: false,
     };
     this.handleInputClick = this.handleInputClick.bind(this);
-    this.handleOptionsBlur = this.handleOptionsBlur.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleOptionClick = this.handleOptionClick.bind(this);
     this.renderOptions = this.renderOptions.bind(this);
     this.renderOption = this.renderOption.bind(this);
     this.renderStringOption = this.renderStringOption.bind(this);
+    this.handleOptionsMouseDown = this.handleOptionsMouseDown.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   // Component LifeCycle
@@ -42,34 +45,40 @@ class DropdownSelect extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.state.isOpen) {
-      ReactDOM.findDOMNode(this.dropdown).focus();
-    }
+  // Handlers
+  handleInputChange(newValue) {
+    this.setState({ inputValue: newValue.target.value });
   }
 
-  // Handlers
   handleInputClick(event) {
     this.setState({ isOpen: true });
   }
 
-  handleOptionsBlur(event) {
-    this.setState({ isOpen: false });
+  handleInputBlur(event) {
+    if (!this.state.isOptionSelected) {
+      this.setState({ isOpen: false, isOptionSelected: false });
+    }
   }
 
   handleOptionClick(value) {
-    this.setState({ inputValue: value, isOpen: false });
+    this.setState({ inputValue: value, isOpen: false, isOptionSelected: false });
+  }
+
+  handleOptionsMouseDown() {
+    this.setState({ isOptionSelected: true });
   }
 
   // Render
   render() {
     return (
-      <div>
+      <div onBlur={this.handleInputBlur}>
         <input
+          onChange={this.handleInputChange}
           onClick={this.handleInputClick}
           style={dropdownStyles.input}
           type="text"
           value={this.state.inputValue}
+          tabIndex="1"
         />
         { this.renderOptions() }
       </div>
@@ -82,11 +91,7 @@ class DropdownSelect extends Component {
                      display: (isOpen)? 'block' : 'none'
                    };
     return (
-      <div
-        style={styles}
-        onBlur={this.handleOptionsBlur}
-        tabIndex="1"
-        ref={(instance) => { this.dropdown = instance; }}>
+      <div style={styles} onMouseDown={this.handleOptionsMouseDown}>
         { this.state.options.map(this.renderOption) }
       </div>
     );
