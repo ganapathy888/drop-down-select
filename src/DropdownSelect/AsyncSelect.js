@@ -41,9 +41,7 @@ class AsyncSelect extends Component {
   // Handlers
   handleInputChange(newValue) {
     const value = newValue.target.value;
-    const options = this.state.options.filter((option) => {
-      return option.indexOf(value) !== -1
-    });
+    const options = this.filterOptions(value);
     this.setState({ inputValue: value, currentOptions: options });
     if (this.props.fetchOptions) {
       this.setState({ isLoading: true });
@@ -87,6 +85,17 @@ class AsyncSelect extends Component {
 
   hideOptions() {
     this.setState({ isOpen: false });
+  }
+
+  filterOptions(value) {
+    const { options } = this.state;
+    return options.filter((option) => {
+      if (typeof(option) == 'string') {
+        return option.indexOf(value) !== -1
+      } else {
+        return option[this.props.labelKey].indexOf(value) !== -1
+      }
+    });
   }
 
   // Render
