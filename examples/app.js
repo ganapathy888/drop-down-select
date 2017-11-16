@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Local Imports
-import DropdownSelect from '../src/DropdownSelect';
+import { SimpleSelect } from '../src';
 import AsyncSelectExample from './components/AsyncSelectExample';
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
           <div className="col-lg-4">
             <h6>Simple Dropdown Select (Array of Strings)</h6>
             <div>
-              <DropdownSelect
+              <SimpleSelect
                 options={optionsArray}
                 inputClassName="form-control"/>
             </div>
@@ -35,7 +35,7 @@ class App extends Component {
           <div className="col-lg-4">
             <h6>Simple Dropdown Select (Array of Objects)</h6>
             <div>
-              <DropdownSelect
+              <SimpleSelect
                 options={optionsObjectArray}
                 inputClassName="form-control"
                 labelKey="name"

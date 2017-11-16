@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { AsyncDropdownSelect } from '../../../src/DropdownSelect';
+import { AsyncSelect } from '../../../src';
 
 class ContactForm extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ class ContactForm extends Component {
         <Field
           name="fruit"
           component={
-            (props) => (<AsyncDropdownSelect
+            (props) => (<AsyncSelect
                           {...props}
                           fetchOptions={this.fetchOptions}
                           labelKey="name"

@@ -1,5 +1,5 @@
-// Imports
-import DropdownSelect from './DropdownSelect';
+import SimpleSelect from './SimpleSelect';
+import AsyncSelect from './AsyncSelect';
 
-// Export
-export default DropdownSelect;
+export { SimpleSelect };
+export { AsyncSelect };
