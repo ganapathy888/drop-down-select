@@ -1,15 +1,17 @@
 {
   "name": "dropdown-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Dropdown Select Control for React JS",
   "main": "lib/index.js",
-  "files": ["lib", "dist"],
+  "files": [
+    "lib",
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --progress --verbose --config webpack.prod.js",
     "build:lib": "npx babel src --out-dir lib",
     "build:lib:scss": "node-sass src/DropdownSelect/styles.scss dist/css/dropdown-select.min.css --output-style compressed",
-
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
