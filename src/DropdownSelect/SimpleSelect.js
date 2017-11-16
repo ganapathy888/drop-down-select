@@ -48,10 +48,8 @@ class SimpleSelect extends Component {
 
   // Handlers
   handleInputChange(newValue) {
-    const options = this.state.options.map((option) => {
-      if (option.match(newValue.target.value)) {
-        return option;
-      }
+    const options = this.state.options.filter((option) => {
+      return option.indexOf(newValue.target.value) !== -1
     });
     this.setState({ inputValue: newValue.target.value, currentOptions: options });
   }
