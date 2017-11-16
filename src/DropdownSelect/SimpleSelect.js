@@ -2,21 +2,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-// Styles
-const dropdownStyles = {
-  input: {
-    height: '30px',
-    width: '100%',
-  },
-  optionsContainer: {
-    outline: 'none',
-    border: '1px solid #ccc',
-  },
-  optionsItem: {
-    padding: '10px',
-  }
-};
-
 // Dropdown Select
 class SimpleSelect extends Component {
   constructor(props) {
@@ -75,15 +60,15 @@ class SimpleSelect extends Component {
   // Render
   render() {
     return (
-      <div onBlur={this.handleInputBlur}>
+      <div className="Dropdown-Select" onBlur={this.handleInputBlur}>
         <input
           onChange={this.handleInputChange}
           onClick={this.handleInputClick}
-          style={dropdownStyles.input}
           type="text"
           value={this.state.inputValue}
           tabIndex="1"
         />
+      <i className="arrow-down options-arrow" />
         { this.renderOptions() }
       </div>
     );
@@ -91,11 +76,12 @@ class SimpleSelect extends Component {
 
   renderOptions() {
     const { isOpen } = this.state;
-    const styles = { ...dropdownStyles.optionsContainer,
-                     display: (isOpen)? 'block' : 'none'
-                   };
+    const styles = { display: (isOpen)? 'block' : 'none' };
     return (
-      <div style={styles} onMouseDown={this.handleOptionsMouseDown}>
+      <div
+        className="options-container"
+        style={styles}
+        onMouseDown={this.handleOptionsMouseDown}>
         { this.state.currentOptions.map(this.renderOption) }
       </div>
     );
@@ -110,7 +96,7 @@ class SimpleSelect extends Component {
   renderStringOption(option, index) {
     return (
       <div
-        style={ dropdownStyles.optionsItem }
+        className="options-item"
         key={index}
         onClick={() => this.handleOptionClick(option)}>
         { option }

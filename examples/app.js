@@ -8,16 +8,21 @@ import { AsyncDropdownSelect } from '../src/DropdownSelect';
 function App(props) {
   const optionsArray = ['first', 'second', 'third', '4', '5'];
   return (
-    <div style={ {width: '300px'} }>
-      <div>
-        <DropdownSelect options={optionsArray} />
+    <div style={ { display: 'flex', flexDirection: 'column', alignItems: 'center' } }>
+      <div style={ {width: '200px'} }>
+        <h3>Simple Dropdown Select</h3>
+        <div>
+          <DropdownSelect options={optionsArray} />
+        </div>
       </div>
 
-      <div>
-        <AsyncDropdownSelect />
+      <div style={ {width: '200px'} }>
+        <h3>Async Dropdown Select</h3>
+        <div>
+          <AsyncDropdownSelect />
+        </div>
       </div>
     </div>
-
   );
 }
 

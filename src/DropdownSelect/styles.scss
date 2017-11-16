@@ -1,0 +1,47 @@
+// Default Select
+.Dropdown-Select {
+  position: relative;
+  width: 100%;
+
+  input {
+    min-height: 30px;
+    padding: 0px 10px;
+  }
+
+  .options-container {
+    position: absolute;
+    background-color: white;
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    width: 100%;
+
+    .options-item {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .options-item:hover {
+      background-color: #E0E0E0;
+    }
+  }
+
+  .options-arrow {
+    position: absolute;
+    top: 15px;
+    right: 5px;
+  }
+
+}
+
+// Shapes
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid gray;
+  cursor: pointer;
+}
