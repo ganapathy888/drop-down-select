@@ -25,6 +25,7 @@ class AsyncSelect extends Component {
       inputValue: '',
       inputPlaceHolder: 'Search here...',
       options: [],
+      currentOptions: [],
       isOpen: false,
       isOptionSelected: false,
     };
@@ -42,12 +43,13 @@ class AsyncSelect extends Component {
   componentDidMount() {
     const { options } = this.props;
     if (options) {
-      this.setState({ options });
+      this.setState({ options, currentOptions: options });
     }
   }
 
   // Handlers
   handleInputChange(newValue) {
+
     this.setState({ inputValue: newValue.target.value });
   }
 
@@ -90,14 +92,14 @@ class AsyncSelect extends Component {
   }
 
   renderOptions() {
-    const { isOpen, options } = this.state;
+    const { isOpen, currentOptions } = this.state;
     const styles = { ...dropdownStyles.optionsContainer,
                      display: (isOpen)? 'block' : 'none'
                    };
-    if (options.length > 0) {
+    if (currentOptions.length > 0) {
       return (
         <div style={styles} onMouseDown={this.handleOptionsMouseDown}>
-          { options.map(this.renderOption) }
+          { currentOptions.map(this.renderOption) }
         </div>
       );
     } else {

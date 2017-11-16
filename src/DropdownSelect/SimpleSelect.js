@@ -24,6 +24,7 @@ class SimpleSelect extends Component {
     this.state = {
       inputValue: '',
       options: [],
+      currentOptions: [],
       isOpen: false,
       isOptionSelected: false,
     };
@@ -41,13 +42,18 @@ class SimpleSelect extends Component {
   componentDidMount() {
     const { options } = this.props;
     if (options) {
-      this.setState({ options });
+      this.setState({ options, currentOptions: options });
     }
   }
 
   // Handlers
   handleInputChange(newValue) {
-    this.setState({ inputValue: newValue.target.value });
+    const options = this.state.options.map((option) => {
+      if (option.match(newValue.target.value)) {
+        return option;
+      }
+    });
+    this.setState({ inputValue: newValue.target.value, currentOptions: options });
   }
 
   handleInputClick(event) {
@@ -92,7 +98,7 @@ class SimpleSelect extends Component {
                    };
     return (
       <div style={styles} onMouseDown={this.handleOptionsMouseDown}>
-        { this.state.options.map(this.renderOption) }
+        { this.state.currentOptions.map(this.renderOption) }
       </div>
     );
   }
