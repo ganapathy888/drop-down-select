@@ -56,7 +56,9 @@ class SimpleSelect extends Component {
     }
   }
 
-  handleOptionClick(value) {
+  handleOptionClick(newValue) {
+    const { labelKey } = this.props;
+    const value = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
     this.setState({ inputValue: value, isOpen: false, isOptionSelected: false });
   }
 
@@ -148,10 +150,13 @@ class SimpleSelect extends Component {
   }
 
   renderObjectOption(option, index) {
-    const { labelKey, valueKey } = this.props;
+    const { labelKey } = this.props;
 
     return (
-      <div key={index} onClick={() => this.handleOptionClick(option[valueKey])}>
+      <div
+        className="options-item"
+        key={index}
+        onClick={() => this.handleOptionClick(option)}>
         { option[labelKey] }
       </div>
     );
