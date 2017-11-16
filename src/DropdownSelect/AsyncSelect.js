@@ -40,10 +40,23 @@ class AsyncSelect extends Component {
 
   // Handlers
   handleInputChange(newValue) {
+    const value = newValue.target.value;
     const options = this.state.options.filter((option) => {
-      return option.indexOf(newValue.target.value) !== -1
+      return option.indexOf(value) !== -1
     });
-    this.setState({ inputValue: newValue.target.value, currentOptions: options });
+    this.setState({ inputValue: value, currentOptions: options });
+    if (this.props.fetchOptions) {
+      this.setState({ isLoading: true });
+      this.props.fetchOptions(value).then((response) => {
+        if (Array.isArray(response)) {
+          this.setState({
+            options: response,
+            currentOptions: response,
+            isLoading: false,
+           });
+        }
+      });
+    }
   }
 
   handleInputClick(event) {
@@ -111,7 +124,10 @@ class AsyncSelect extends Component {
   }
 
   renderArrow() {
-    return (this.state.isOpen && !this.state.isLoading) ?
+    if (this.state.isLoading) {
+      return;
+    }
+    return (this.state.isOpen) ?
     (<i className="arrow-up options-arrow" onClick={this.hideOptions} />) :
     (<i className="arrow-down options-arrow" onClick={this.showOptions} />)
   }
