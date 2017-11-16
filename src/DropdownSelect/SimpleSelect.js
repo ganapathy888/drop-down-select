@@ -68,10 +68,15 @@ class SimpleSelect extends Component {
           value={this.state.inputValue}
           tabIndex="1"
         />
-      <i className="arrow-down options-arrow" />
+        { this.renderArrow() }
         { this.renderOptions() }
       </div>
     );
+  }
+
+  renderArrow() {
+    return this.state.isOpen ? (<i className="arrow-up options-arrow" />) : 
+    (<i className="arrow-down options-arrow" />)
   }
 
   renderOptions() {
