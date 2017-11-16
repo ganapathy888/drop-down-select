@@ -10,7 +10,7 @@ class AsyncSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeholder: 'Select',
+      placeholder: 'Search...',
       inputValue: '',
       options: [],
       currentOptions: [],
@@ -56,7 +56,9 @@ class AsyncSelect extends Component {
     }
   }
 
-  handleOptionClick(value) {
+  handleOptionClick(newValue) {
+    const { labelKey } = this.props;
+    const value = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
     this.setState({ inputValue: value, isOpen: false, isOptionSelected: false });
   }
 
@@ -93,14 +95,23 @@ class AsyncSelect extends Component {
           value={inputValue}
           tabIndex="1"
         />
+        { this.renderSpinner() }
         { this.renderArrow() }
         { this.renderOptions() }
       </div>
     );
   }
 
+  renderSpinner() {
+    if (this.state.isLoading) {
+      return (
+        <div className="spinner input-spinner" />
+      );
+    }
+  }
+
   renderArrow() {
-    return this.state.isOpen ?
+    return (this.state.isOpen && !this.state.isLoading) ?
     (<i className="arrow-up options-arrow" onClick={this.hideOptions} />) :
     (<i className="arrow-down options-arrow" onClick={this.showOptions} />)
   }
@@ -148,10 +159,13 @@ class AsyncSelect extends Component {
   }
 
   renderObjectOption(option, index) {
-    const { labelKey, valueKey } = this.props;
+    const { labelKey } = this.props;
 
     return (
-      <div key={index} onClick={() => this.handleOptionClick(option[valueKey])}>
+      <div
+        className="options-item"
+        key={index}
+        onClick={() => this.handleOptionClick(option)}>
         { option[labelKey] }
       </div>
     );

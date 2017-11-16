@@ -38,6 +38,12 @@
     right: 8px;
   }
 
+  .input-spinner {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+  }
+
 }
 
 // Shapes
@@ -57,4 +63,22 @@
   border-right: 6px solid transparent;
   border-bottom: 6px solid gray;
   cursor: pointer;
+}
+
+// Loader
+@keyframes spinner {
+  to {transform: rotate(360deg);}
+}
+
+.spinner {
+  content: '';
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  animation: spinner .6s linear infinite;
 }
