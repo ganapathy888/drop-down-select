@@ -7,6 +7,7 @@ class SimpleSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      placeholder: 'Select',
       inputValue: '',
       options: [],
       currentOptions: [],
@@ -21,6 +22,9 @@ class SimpleSelect extends Component {
     this.renderStringOption = this.renderStringOption.bind(this);
     this.handleOptionsMouseDown = this.handleOptionsMouseDown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.showOptions = this.showOptions.bind(this);
+    this.hideOptions = this.hideOptions.bind(this);
+    this.renderArrow = this.renderArrow.bind(this);
   }
 
   // Component LifeCycle
@@ -40,7 +44,7 @@ class SimpleSelect extends Component {
   }
 
   handleInputClick(event) {
-    this.setState({ isOpen: true });
+    this.showOptions();
   }
 
   handleInputBlur(event) {
@@ -57,15 +61,29 @@ class SimpleSelect extends Component {
     this.setState({ isOptionSelected: true });
   }
 
+  // Private
+  showOptions() {
+    this.input.focus();
+    this.setState({ isOpen: true });
+  }
+
+  hideOptions() {
+    this.setState({ isOpen: false });
+  }
+
   // Render
   render() {
+    const { placeholder, inputValue } = this.state;
+
     return (
       <div className="Dropdown-Select" onBlur={this.handleInputBlur}>
         <input
+          ref={ (input) => this.input = input }
+          placeholder={placeholder}
           onChange={this.handleInputChange}
           onClick={this.handleInputClick}
           type="text"
-          value={this.state.inputValue}
+          value={inputValue}
           tabIndex="1"
         />
         { this.renderArrow() }
@@ -75,21 +93,34 @@ class SimpleSelect extends Component {
   }
 
   renderArrow() {
-    return this.state.isOpen ? (<i className="arrow-up options-arrow" />) : 
-    (<i className="arrow-down options-arrow" />)
+    return this.state.isOpen ?
+    (<i className="arrow-up options-arrow" onClick={this.hideOptions} />) :
+    (<i className="arrow-down options-arrow" onClick={this.showOptions} />)
   }
 
   renderOptions() {
-    const { isOpen } = this.state;
+    const { isOpen, currentOptions } = this.state;
     const styles = { display: (isOpen)? 'block' : 'none' };
-    return (
-      <div
-        className="options-container"
-        style={styles}
-        onMouseDown={this.handleOptionsMouseDown}>
-        { this.state.currentOptions.map(this.renderOption) }
-      </div>
-    );
+    if (currentOptions.length > 0) {
+      return (
+        <div
+          className="options-container"
+          style={styles}
+          onMouseDown={this.handleOptionsMouseDown}>
+          { currentOptions.map(this.renderOption) }
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="options-container"
+          style={styles}>
+          <div className="options-item">
+            No options found...
+          </div>
+        </div>
+      );
+    }
   }
 
   renderOption(option, index) {

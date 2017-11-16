@@ -12,7 +12,7 @@ function App(props) {
       <div style={ {width: '200px'} }>
         <h3>Simple Dropdown Select</h3>
         <div>
-          <DropdownSelect options={optionsArray} />
+          <DropdownSelect options={[]} />
         </div>
       </div>
 
