@@ -2,10 +2,13 @@
 .Dropdown-Select {
   position: relative;
   width: 100%;
+  min-height: 35px;
 
-  input {
-    min-height: 30px;
-    padding: 0px 10px;
+  .Dropdown-Select-input {
+    padding: 8px;
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .options-container {
@@ -30,8 +33,8 @@
 
   .options-arrow {
     position: absolute;
-    top: 15px;
-    right: 5px;
+    top: 40%;
+    right: 8px;
   }
 
 }

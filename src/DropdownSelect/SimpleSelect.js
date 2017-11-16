@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+// Local Imports
+import classNames from './classNames';
+
 // Dropdown Select
 class SimpleSelect extends Component {
   constructor(props) {
@@ -74,10 +77,14 @@ class SimpleSelect extends Component {
   // Render
   render() {
     const { placeholder, inputValue } = this.state;
+    const inputClasses = classNames({
+      "Dropdown-Select-input": !this.props.inputClassName
+    }, this.props.inputClassName);
 
     return (
       <div className="Dropdown-Select" onBlur={this.handleInputBlur}>
         <input
+          className={inputClasses}
           ref={ (input) => this.input = input }
           placeholder={placeholder}
           onChange={this.handleInputChange}

@@ -2,28 +2,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-// Styles
-const dropdownStyles = {
-  input: {
-    height: '30px',
-    width: '100%',
-  },
-  optionsContainer: {
-    outline: 'none',
-    border: '1px solid #ccc',
-  },
-  optionsItem: {
-    padding: '10px',
-  }
-};
+// Local Imports
+import classNames from './classNames';
 
 // Dropdown Select
 class AsyncSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      placeholder: 'Select',
       inputValue: '',
-      inputPlaceHolder: 'Search here...',
       options: [],
       currentOptions: [],
       isOpen: false,
@@ -37,6 +25,9 @@ class AsyncSelect extends Component {
     this.renderStringOption = this.renderStringOption.bind(this);
     this.handleOptionsMouseDown = this.handleOptionsMouseDown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.showOptions = this.showOptions.bind(this);
+    this.hideOptions = this.hideOptions.bind(this);
+    this.renderArrow = this.renderArrow.bind(this);
   }
 
   // Component LifeCycle
@@ -49,12 +40,14 @@ class AsyncSelect extends Component {
 
   // Handlers
   handleInputChange(newValue) {
-
-    this.setState({ inputValue: newValue.target.value });
+    const options = this.state.options.filter((option) => {
+      return option.indexOf(newValue.target.value) !== -1
+    });
+    this.setState({ inputValue: newValue.target.value, currentOptions: options });
   }
 
   handleInputClick(event) {
-    this.setState({ isOpen: true });
+    this.showOptions();
   }
 
   handleInputBlur(event) {
@@ -71,43 +64,69 @@ class AsyncSelect extends Component {
     this.setState({ isOptionSelected: true });
   }
 
+  // Private
+  showOptions() {
+    this.input.focus();
+    this.setState({ isOpen: true });
+  }
+
+  hideOptions() {
+    this.setState({ isOpen: false });
+  }
+
   // Render
   render() {
-    const { inputValue, inputPlaceHolder } = this.state;
+    const { placeholder, inputValue } = this.state;
+    const inputClasses = classNames({
+      "Dropdown-Select-input": !this.props.inputClassName
+    }, this.props.inputClassName);
 
     return (
-      <div onBlur={this.handleInputBlur}>
+      <div className="Dropdown-Select" onBlur={this.handleInputBlur}>
         <input
+          className={inputClasses}
+          ref={ (input) => this.input = input }
+          placeholder={placeholder}
           onChange={this.handleInputChange}
           onClick={this.handleInputClick}
-          style={dropdownStyles.input}
           type="text"
           value={inputValue}
           tabIndex="1"
-          placeholder={inputPlaceHolder}
         />
+        { this.renderArrow() }
         { this.renderOptions() }
       </div>
     );
   }
 
+  renderArrow() {
+    return this.state.isOpen ?
+    (<i className="arrow-up options-arrow" onClick={this.hideOptions} />) :
+    (<i className="arrow-down options-arrow" onClick={this.showOptions} />)
+  }
+
   renderOptions() {
     const { isOpen, currentOptions } = this.state;
-    const styles = { ...dropdownStyles.optionsContainer,
-                     display: (isOpen)? 'block' : 'none'
-                   };
+    const styles = { display: (isOpen)? 'block' : 'none' };
     if (currentOptions.length > 0) {
       return (
-        <div style={styles} onMouseDown={this.handleOptionsMouseDown}>
+        <div
+          className="options-container"
+          style={styles}
+          onMouseDown={this.handleOptionsMouseDown}>
           { currentOptions.map(this.renderOption) }
         </div>
       );
     } else {
       return (
-        <div style={styles} >
-          No Options Found
+        <div
+          className="options-container"
+          style={styles}>
+          <div className="options-item">
+            No options found...
+          </div>
         </div>
-      )
+      );
     }
   }
 
@@ -120,7 +139,7 @@ class AsyncSelect extends Component {
   renderStringOption(option, index) {
     return (
       <div
-        style={ dropdownStyles.optionsItem }
+        className="options-item"
         key={index}
         onClick={() => this.handleOptionClick(option)}>
         { option }
