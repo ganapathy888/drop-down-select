@@ -9,9 +9,9 @@
   ],
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --progress --verbose --config webpack.prod.js",
+    "build": "webpack --progress --config webpack.prod.js",
     "build:lib": "npx babel src --out-dir lib",
-    "build:lib:scss": "node-sass src/DropdownSelect/styles.scss dist/css/dropdown-select.min.css --output-style compressed",
+    "build:lib:scss": "node-sass src/scss/styles.scss dist/css/dropdown-select.min.css --output-style compressed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
