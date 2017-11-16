@@ -3,27 +3,9 @@ import React, { Component } from 'react';
 
 // Local Imports
 import DropdownSelect from '../src/DropdownSelect';
-import { AsyncDropdownSelect } from '../src/DropdownSelect';
+import AsyncSelectExample from './components/AsyncSelectExample';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.fetchOptions = this.fetchOptions.bind(this);
-  }
-
-  // Handlers
-  fetchOptions(value) {
-    return new Promise((resolve, reject) => (
-      setTimeout(function() {
-        const arr = [
-          { id: 'one', name: 'One' },
-          { id: 'two', name: 'Two' }
-        ];
-        resolve(arr);
-      }, 1000)
-    ));
-  }
-
   // Render
   render() {
     const optionsArray = ['first', 'second', 'third', '4', '5'];
@@ -69,11 +51,7 @@ class App extends Component {
           <div className="col-lg-4">
             <h6>Async Dropdown Select</h6>
             <div>
-              <AsyncDropdownSelect
-                fetchOptions={this.fetchOptions}
-                labelKey="name"
-                valueKey="id"
-                />
+              <AsyncSelectExample />
             </div>
           </div>
           <div className="col-lg-4" />

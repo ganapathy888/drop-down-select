@@ -68,9 +68,11 @@ class AsyncSelect extends Component {
   }
 
   handleOptionClick(newValue) {
-    const { labelKey } = this.props;
-    const value = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
-    this.setState({ inputValue: value, isOpen: false, isOptionSelected: false });
+    const { labelKey, valueKey } = this.props;
+    const label = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
+    this.setState({ inputValue: label, isOpen: false, isOptionSelected: false });
+    const value = typeof(newValue) == 'object' ? newValue[valueKey] : newValue
+    this.props.input.onChange(value);
   }
 
   handleOptionsMouseDown() {
