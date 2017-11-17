@@ -38,6 +38,13 @@ class SimpleSelect extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { options } = nextProps;
+    if (options) {
+      this.setState({ options, currentOptions: options });
+    }
+  }
+
   // Handlers
   handleInputChange(newValue) {
     const options = this.state.options.filter((option) => {
