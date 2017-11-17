@@ -46,11 +46,11 @@ class AsyncSelect extends Component {
     if (this.props.fetchOptions) {
       this.setState({ isLoading: true });
       this.props.fetchOptions(value).then((response) => {
+        this.setState({ isLoading: false });
         if (Array.isArray(response)) {
           this.setState({
             options: response,
             currentOptions: response,
-            isLoading: false,
            });
         }
       });
