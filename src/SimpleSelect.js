@@ -60,6 +60,7 @@ class SimpleSelect extends Component {
     const { labelKey } = this.props;
     const value = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
     this.setState({ inputValue: value, isOpen: false, isOptionSelected: false });
+    this.props.onChange(newValue);
   }
 
   handleOptionsMouseDown() {
