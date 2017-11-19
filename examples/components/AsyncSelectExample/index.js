@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { AsyncSelect } from '../../../src';
+import { SimpleSelect, AsyncSelect } from '../../../src';
 
 class ContactForm extends Component {
   constructor(props) {
     super(props);
     this.fetchOptions = this.fetchOptions.bind(this);
     this.renderField = this.renderField.bind(this);
+    this.renderSimpleSelectField = this.renderSimpleSelectField.bind(this);
   }
 
   // Handlers
@@ -39,14 +40,41 @@ class ContactForm extends Component {
     );
   }
 
+  renderSimpleSelectField(field) {
+    return (
+      <SimpleSelect
+        value={field.input.value}
+        onChange={(value) => field.input.onChange(value)}
+        options={field.options}
+        labelKey="name"
+        valueKey="id"
+        value={field.options[0]}
+        />
+    );
+  }
+
   // Render
   render() {
+    const capitalOptions = [{
+      id: "Chennai", name: "Tamilnadu",
+    },
+    {
+      id: "Mumbai", name: "Maharashtra",
+    },
+    {
+      id: "Bangalore", name: "Karnataka",
+    }]
     const { handleSubmit } = this.props
     return (
       <form onSubmit={ handleSubmit(this.handleSubmit) }>
         <Field
           name="fruit"
           component={this.renderField}
+          />
+        <Field
+          name="capital"
+          options={ capitalOptions }
+          component={this.renderSimpleSelectField}
           />
         <button type="submit">Submit</button>
       </form>

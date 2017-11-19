@@ -36,11 +36,12 @@ class SimpleSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value } = this.props;
+    const { options, value, labelKey } = this.props;
     if (options) {
       this.setState({ options, currentOptions: options }, () => {
         if (value) {
-          this.handleInputChange(value);
+          let inputValue = labelKey ? value[labelKey] : value
+          this.setState({ inputValue });
         }
       });
     }
