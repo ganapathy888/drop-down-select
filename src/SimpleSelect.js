@@ -48,9 +48,14 @@ class SimpleSelect extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { options } = nextProps;
+    const { options, value, labelKey } = nextProps;
     if (options) {
-      this.setState({ options, currentOptions: options });
+      this.setState({ options, currentOptions: options }, () => {
+        if (value) {
+          let inputValue = labelKey ? value[labelKey] : value
+          this.setState({ inputValue });
+        }
+      });
     }
   }
 
