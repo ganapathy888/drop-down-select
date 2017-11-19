@@ -34,7 +34,11 @@ class AsyncSelect extends Component {
   componentDidMount() {
     const { options } = this.props;
     if (options) {
-      this.setState({ options, currentOptions: options });
+      this.setState({ options, currentOptions: options }, () => {
+        if (value) {
+          this.handleInputChange(value);
+        }
+      });
     }
   }
 
