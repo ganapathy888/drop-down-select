@@ -38,33 +38,41 @@ class SimpleSelect extends Component {
   componentDidMount() {
     const { options, value, labelKey } = this.props;
     if (options) {
-      this.setState({ options, currentOptions: options }, () => {
-        if (value) {
-          let inputValue = labelKey ? value[labelKey] : value
-          this.setState({ inputValue });
-        }
-      });
+      this.setOptions(options);
+      if (value) {
+        let inputValue = labelKey ? value[labelKey] : value
+        this.setState({ inputValue });
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { options, value, labelKey } = nextProps;
     if (options) {
-      this.setState({ options, currentOptions: options }, () => {
-        if (value) {
-          let inputValue = labelKey ? value[labelKey] : value
-          this.setState({ inputValue });
-        }
-      });
+      this.setOptions(options);
+      if (value) {
+        let inputValue = labelKey ? value[labelKey] : value
+        this.setState({ inputValue });
+      }
     }
   }
 
   // Handlers
   handleInputChange(newValue) {
-    const options = this.state.options.filter((option) => {
-      return option.indexOf(newValue.target.value) !== -1
-    });
-    this.setState({ inputValue: newValue.target.value, currentOptions: options });
+    const { labelKey } = this.props;
+    const { options } = this.state;
+    if (newValue.target.value.length == 0) {
+      this.setState({ inputValue: newValue.target.value, currentOptions: options });
+    } else {
+      const newOptions = options.filter((option) => {
+        let label = labelKey ? option[labelKey] : option
+        return label.indexOf(newValue.target.value) !== -1
+      });
+      this.setState({
+        inputValue: newValue.target.value,
+        currentOptions: newOptions
+      });
+    }
   }
 
   handleInputClick(event) {
@@ -116,6 +124,9 @@ class SimpleSelect extends Component {
       case 13:
         this.handleOptionClick(currentOptions[focusedOptionIndex], focusedOptionIndex);
         break;
+      case 8:
+        this.showOptions(true);
+        break;
     }
     this.setState({ focusedOptionIndex: index }, () => {
       this.focusOption();
@@ -139,6 +150,15 @@ class SimpleSelect extends Component {
     } else {
       this.setState({ showOptions: false });
     }
+  }
+
+  setOptions(options) {
+    let optionsArr = [];
+    if (this.props.defaultOption) {
+      optionsArr = optionsArr.concat(this.props.defaultOption);
+    }
+    optionsArr = optionsArr.concat(options);
+    this.setState({ options: optionsArr, currentOptions: optionsArr });
   }
 
   // Render

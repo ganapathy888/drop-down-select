@@ -33,9 +33,40 @@ class App extends Component {
         <div className="row mt-5">
           <div className="col-lg-4" />
           <div className="col-lg-4">
+            <h6>Simple Dropdown Select with Default Option</h6>
+            <div>
+              <SimpleSelect
+                defaultOption="All"
+                options={optionsArray}
+                inputClassName="form-control"/>
+            </div>
+          </div>
+          <div className="col-lg-4" />
+        </div>
+
+        <div className="row mt-5">
+          <div className="col-lg-4" />
+          <div className="col-lg-4">
             <h6>Simple Dropdown Select (Array of Objects)</h6>
             <div>
               <SimpleSelect
+                options={optionsObjectArray}
+                inputClassName="form-control"
+                labelKey="name"
+                valueKey="id"
+                />
+            </div>
+          </div>
+          <div className="col-lg-4" />
+        </div>
+
+        <div className="row mt-5">
+          <div className="col-lg-4" />
+          <div className="col-lg-4">
+            <h6>Simple Dropdown Select (Array of Objects)</h6>
+            <div>
+              <SimpleSelect
+                defaultOption={ { name: 'All', id: ''} }
                 options={optionsObjectArray}
                 inputClassName="form-control"
                 labelKey="name"
