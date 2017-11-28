@@ -8,7 +8,6 @@ module.exports = merge(common, {
   entry: {
     app: './examples/index.js'
   },
-  devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist'
   },

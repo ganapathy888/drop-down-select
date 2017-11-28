@@ -39,10 +39,10 @@ class SimpleSelect extends Component {
     const { options, value, labelKey } = this.props;
     if (options) {
       this.setOptions(options);
-      if (value) {
-        let inputValue = labelKey ? value[labelKey] : value
-        this.setState({ inputValue });
-      }
+    }
+    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    if (inputValue) {
+      this.input.value = inputValue;
     }
   }
 
@@ -50,10 +50,10 @@ class SimpleSelect extends Component {
     const { options, value, labelKey } = nextProps;
     if (options) {
       this.setOptions(options);
-      if (value) {
-        let inputValue = labelKey ? value[labelKey] : value
-        this.setState({ inputValue });
-      }
+    }
+    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    if (inputValue != undefined) {
+      this.input.value = inputValue;
     }
   }
 
@@ -62,16 +62,13 @@ class SimpleSelect extends Component {
     const { labelKey } = this.props;
     const { options } = this.state;
     if (newValue.target.value.length == 0) {
-      this.setState({ inputValue: newValue.target.value, currentOptions: options });
+      this.setState({ currentOptions: options });
     } else {
       const newOptions = options.filter((option) => {
-        let label = labelKey ? option[labelKey] : option
+        let label = typeof(option) == 'object' ? option[labelKey] : option
         return label.indexOf(newValue.target.value) !== -1
       });
-      this.setState({
-        inputValue: newValue.target.value,
-        currentOptions: newOptions
-      });
+      this.setState({ currentOptions: newOptions });
     }
   }
 
@@ -88,10 +85,7 @@ class SimpleSelect extends Component {
   }
 
   handleOptionClick(newValue, index) {
-    const { labelKey } = this.props;
-    const value = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
     this.setState({
-      inputValue: value,
       showOptions: false,
       isOptionSelected: false,
       focusedOptionIndex: index,
@@ -108,6 +102,8 @@ class SimpleSelect extends Component {
   }
 
   handleKeyPress(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const { focusedOptionIndex, currentOptions } = this.state;
     let index = focusedOptionIndex;
     switch (e.keyCode) {
@@ -175,7 +171,6 @@ class SimpleSelect extends Component {
           ref={ (input) => this.input = input }
           placeholder={placeholder}
           type="text"
-          value={inputValue}
           tabIndex="1"
           onBlur={this.handleInputBlur}
           onChange={this.handleInputChange}

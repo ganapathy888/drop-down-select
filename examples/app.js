@@ -2,15 +2,12 @@
 import React, { Component } from 'react';
 
 // Local Imports
-import { SimpleSelect } from '../src';
-import AsyncSelectExample from './components/AsyncSelectExample';
+import SimpleSelectForm from './components/SimpleSelectForm';
+import AsyncSelectForm from './components/AsyncSelectForm';
 
 class App extends Component {
   // Render
   render() {
-    const optionsArray = ['first', 'second', 'third', '4', '5'];
-    const optionsObjectArray = [{ name: "test", id: 1 }, { name: "test2", id: 2 }];
-
     return (
       <div className="container">
         <div className="row">
@@ -20,58 +17,9 @@ class App extends Component {
         <div className="row mt-5">
           <div className="col-lg-4" />
           <div className="col-lg-4">
-            <h6>Simple Dropdown Select (Array of Strings)</h6>
+            <h6>Simple Dropdown Select</h6>
             <div>
-              <SimpleSelect
-                options={optionsArray}
-                inputClassName="form-control"/>
-            </div>
-          </div>
-          <div className="col-lg-4" />
-        </div>
-
-        <div className="row mt-5">
-          <div className="col-lg-4" />
-          <div className="col-lg-4">
-            <h6>Simple Dropdown Select with Default Option</h6>
-            <div>
-              <SimpleSelect
-                defaultOption="All"
-                options={optionsArray}
-                inputClassName="form-control"/>
-            </div>
-          </div>
-          <div className="col-lg-4" />
-        </div>
-
-        <div className="row mt-5">
-          <div className="col-lg-4" />
-          <div className="col-lg-4">
-            <h6>Simple Dropdown Select (Array of Objects)</h6>
-            <div>
-              <SimpleSelect
-                options={optionsObjectArray}
-                inputClassName="form-control"
-                labelKey="name"
-                valueKey="id"
-                />
-            </div>
-          </div>
-          <div className="col-lg-4" />
-        </div>
-
-        <div className="row mt-5">
-          <div className="col-lg-4" />
-          <div className="col-lg-4">
-            <h6>Simple Dropdown Select (Array of Objects)</h6>
-            <div>
-              <SimpleSelect
-                defaultOption={ { name: 'All', id: ''} }
-                options={optionsObjectArray}
-                inputClassName="form-control"
-                labelKey="name"
-                valueKey="id"
-                />
+              <SimpleSelectForm />
             </div>
           </div>
           <div className="col-lg-4" />
@@ -82,7 +30,7 @@ class App extends Component {
           <div className="col-lg-4">
             <h6>Async Dropdown Select</h6>
             <div>
-              <AsyncSelectExample />
+              <AsyncSelectForm />
             </div>
           </div>
           <div className="col-lg-4" />
