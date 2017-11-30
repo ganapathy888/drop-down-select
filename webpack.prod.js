@@ -18,7 +18,7 @@ const copyWebpackPlugin = new CopyWebpackPlugin([
 
 // SASS
 const extractSass = new ExtractTextPlugin({
-  filename: "style.css"
+  filename: "bundle.css"
 });
 
 // Export
