@@ -102,3 +102,6 @@ render() {
   );
 }
 ```
+
+### Further Reading
+For advanced use cases and multiselect control, please refer [react-select](https://github.com/JedWatson/react-select)
