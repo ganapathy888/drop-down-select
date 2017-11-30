@@ -6,43 +6,43 @@ class Arrow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
-      inputFoucsed: false,
+      isOptionsVisible: false,
     }
-    this.handleClick = this.handleClick.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
   }
 
   // Component LifeCycle
   componentDidMount() {
-    this.setState({ inputFoucsed: this.props.inputFoucsed });
+    const { isOptionsVisible } = this.props;
+    this.setState({ isOptionsVisible });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ inputFoucsed: nextProps.inputFoucsed });
+    const { isOptionsVisible } = nextProps;
+    this.setState({ isOptionsVisible });
   }
 
   // Handlers
-  handleClick(e, flag) {
+  handleMouseDown(e, flag) {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({ open: flag })
     this.props.showOptions(flag);
   }
 
   // Render
   render() {
-    if (this.state.open || this.state.inputFoucsed) {
+    if (this.state.isOptionsVisible) {
       return (
         <i
           className="options-arrow arrow-up"
-          onClick={(e) => this.handleClick(e, false)}
+          onMouseDown={(e) => this.handleMouseDown(e, false)}
           />
       );
     } else {
       return (
         <i
           className="options-arrow arrow-down"
-          onClick={(e) => this.handleClick(e, true)}
+          onMouseDown={(e) => this.handleMouseDown(e, true)}
           />
       );
     }

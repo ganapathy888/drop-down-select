@@ -1,42 +1,51 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { AsyncSelect } from '../../../src';
+import 'whatwg-fetch';
 
 class ContactForm extends Component {
   constructor(props) {
     super(props);
     this.fetchOptions = this.fetchOptions.bind(this);
     this.renderField = this.renderField.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // Handlers
   fetchOptions(value) {
-    return new Promise((resolve, reject) => (
-      setTimeout(function() {
-        const arr = [
-          { id: 'Yello', name: 'Banana' },
-          { id: 'Red', name: 'Apple' },
-          { id: 'Orange', name: 'Orange' },
-        ];
-        resolve(arr);
-      }, 1000)
-    ));
+    return fetch('https://api.cdnjs.com/libraries?search=' + value)
+     .then(function(response) {
+       return response.json()
+     }).then(function(json) {
+       return json.results.slice(0, 25);
+     }).catch(function(ex) {
+       console.log('parsing failed', ex)
+     });
   }
 
   handleSubmit(values) {
     console.log(values);
-    this.props.reset();
+    alert('Check your browser console for form output');
   }
 
-  renderField(field) {
+  renderField(props) {
     return (
-      <AsyncSelect
-        value={field.input.value}
-        onChange={(value) => field.input.onChange(value)}
-        fetchOptions={this.fetchOptions}
-        labelKey="name"
-        valueKey="id"
-        />
+      <div>
+        <AsyncSelect
+          {...props.input}
+          fetchOptions={this.fetchOptions}
+          labelKey="name"
+          valueKey="id"
+          />
+        <div className="mt-3">
+          <h6>
+            URL:
+            <div className="text-primary">
+              { props.input.value['latest'] }
+            </div>
+          </h6>
+        </div>
+      </div>
     );
   }
 
@@ -46,7 +55,7 @@ class ContactForm extends Component {
     return (
       <form onSubmit={ handleSubmit(this.handleSubmit) }>
         <Field
-          name="fruit"
+          name="lib"
           component={this.renderField}
           />
         <button className="btn btn-primary mt-2" type="submit">Submit</button>
@@ -57,7 +66,7 @@ class ContactForm extends Component {
 
 const ReduxContactForm = reduxForm({
   // a unique name for the form
-  form: 'contact'
+  form: 'jsLibFindingForm'
 })(ContactForm)
 
 export default ReduxContactForm;

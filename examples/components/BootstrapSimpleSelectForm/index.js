@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { SimpleSelect  } from '../../../src';
-import countriesList from '../countriesList';
 
 class SimpleSelectForm extends Component {
   constructor(props) {
@@ -22,14 +21,10 @@ class SimpleSelectForm extends Component {
         <SimpleSelect
           {...props.input}
           options={props.options}
+          inputClassName="form-control"
           labelKey="name"
           valueKey="id"
           />
-        <div className="mt-3">
-          <h5>
-            Country Code: <span className="text-success">{ props.input.value["id"] }</span>
-          </h5>
-        </div>
       </div>
     );
   }
@@ -42,10 +37,8 @@ class SimpleSelectForm extends Component {
       <form onSubmit={ handleSubmit(this.handleSubmit) }>
         <Field
           name="capital"
-          options={ countriesList }
           component={this.renderField}
           />
-        <button className="btn btn-primary mt-2" type="submit">Submit</button>
       </form>
     );
   }

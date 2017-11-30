@@ -4,200 +4,259 @@ import ReactDOM from 'react-dom';
 
 // Local Imports
 import classNames from './classNames';
+import Option from './Option';
+import Arrow from './Arrow';
 
-// Dropdown Select
+// Async Dropdown Select
 class AsyncSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
       placeholder: 'Search...',
-      inputValue: '',
       options: [],
       currentOptions: [],
-      isOpen: false,
+      showOptions: false,
       isOptionSelected: false,
+      focusedOptionIndex: 0,
+      inputFoucsed: false,
     };
     this.handleInputClick = this.handleInputClick.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleOptionClick = this.handleOptionClick.bind(this);
     this.renderOptions = this.renderOptions.bind(this);
     this.renderOption = this.renderOption.bind(this);
-    this.renderStringOption = this.renderStringOption.bind(this);
     this.handleOptionsMouseDown = this.handleOptionsMouseDown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.showOptions = this.showOptions.bind(this);
-    this.hideOptions = this.hideOptions.bind(this);
-    this.renderArrow = this.renderArrow.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.renderOptionsContainer = this.renderOptionsContainer.bind(this);
+    this.renderSpinnerOrArrow = this.renderSpinnerOrArrow.bind(this);
   }
 
   // Component LifeCycle
   componentDidMount() {
-    const { options } = this.props;
+    const { options, value, labelKey } = this.props;
     if (options) {
-      this.setState({ options, currentOptions: options }, () => {
-        if (value) {
-          this.handleInputChange(value);
-        }
-      });
+      this.setOptions(options);
+    }
+    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    if (inputValue) {
+      this.input.value = inputValue;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { options, value, labelKey } = nextProps;
+    if (options) {
+      this.setOptions(options);
+    }
+    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    if (inputValue != undefined) {
+      this.input.value = inputValue;
     }
   }
 
   // Handlers
   handleInputChange(newValue) {
-    const value = newValue.target.value;
-    const options = this.filterOptions(value);
-    this.setState({ inputValue: value, currentOptions: options });
     if (this.props.fetchOptions) {
       this.setState({ isLoading: true });
-      this.props.fetchOptions(value).then((response) => {
+      this.props.fetchOptions(newValue.target.value).then((response) => {
         this.setState({ isLoading: false });
         if (Array.isArray(response)) {
-          this.setState({
-            options: response,
-            currentOptions: response,
-           });
+          this.setOptions(response);
         }
       });
     }
   }
 
   handleInputClick(event) {
-    this.showOptions();
+    this.setState({ inputFoucsed: true });
+    this.showOptions(true);
   }
 
   handleInputBlur(event) {
-    if (!this.state.isOptionSelected) {
-      this.setState({ isOpen: false, isOptionSelected: false });
+    this.setState({ inputFoucsed: false });
+    if (!this.state.isOptionSelected || this.state.currentOptions.length == 0) {
+      this.setState({ showOptions: false, isOptionSelected: false });
     }
   }
 
-  handleOptionClick(newValue) {
-    const { labelKey, valueKey } = this.props;
-    const label = typeof(newValue) == 'object' ? newValue[labelKey] : newValue
-    this.setState({ inputValue: label, isOpen: false, isOptionSelected: false });
-    this.props.onChange(newValue);
+  handleOptionClick(newValue, index) {
+    if (newValue == this.props.value) {
+      this.input.value = this.props.value[this.props.labelKey];
+    } else {
+      if (this.props.onChange) {
+        this.props.onChange(newValue);
+      }
+    }
+    this.setState({
+      showOptions: false,
+      isOptionSelected: false,
+      focusedOptionIndex: index,
+    });
   }
 
-  handleOptionsMouseDown() {
-    this.setState({ isOptionSelected: true });
+  handleOptionsMouseDown(e) {
+    if (e.target !== this.optionsContainer) {
+      this.setState({ isOptionSelected: true });
+    }
+  }
+
+  handleKeyPress(e) {
+    this.showOptions(true);
+    const { currentOptions, focusedOptionIndex } = this.state;
+    switch (e.keyCode) {
+      case 40: // Down Arrow
+        e.preventDefault();
+        e.stopPropagation();
+        this.navigateOptions('down');
+        break;
+      case 38: // Up Arrow
+        e.preventDefault();
+        e.stopPropagation();
+        this.navigateOptions('up');
+        break;
+      case 13: // Enter
+        e.preventDefault();
+        e.stopPropagation();
+        this.handleOptionClick(currentOptions[focusedOptionIndex], focusedOptionIndex);
+        break;
+      case 27: // Esc
+        this.showOptions(false);
+        break;
+    }
   }
 
   // Private
-  showOptions() {
-    this.input.focus();
-    this.setState({ isOpen: true });
-  }
-
-  hideOptions() {
-    this.setState({ isOpen: false });
-  }
-
-  filterOptions(value) {
-    const { options } = this.state;
-    return options.filter((option) => {
-      if (typeof(option) == 'string') {
-        return option.indexOf(value) !== -1
-      } else {
-        return option[this.props.labelKey].indexOf(value) !== -1
-      }
+  navigateOptions(dir) {
+    if (!this.state.showOptions) {
+      return;
+    }
+    let { focusedOptionIndex, currentOptions } = this.state;
+    if (dir == 'down') {
+      focusedOptionIndex += 1;
+    } else if (dir == 'up') {
+      focusedOptionIndex -= 1;
+    }
+    if (focusedOptionIndex < 0) {
+      focusedOptionIndex = currentOptions.length - 1;
+    } else if (focusedOptionIndex > currentOptions.length -1) {
+      focusedOptionIndex = 0;
+    }
+    this.setState({ focusedOptionIndex }, () => {
+      this.setFocusOption();
     });
+  }
+
+  setFocusOption() {
+    let panel, node;
+    panel = this.optionsContainer;
+    node = ReactDOM.findDOMNode(this.focusedOptionItem);
+    if (node) {
+      panel.scrollTop = node.offsetTop - panel.offsetTop;
+    }
+  }
+
+  showOptions(flag) {
+    if (flag) {
+      this.input.focus();
+      this.setState({ showOptions: true, inputFoucsed: true });
+    } else {
+      this.setState({ showOptions: false, inputFoucsed: false });
+    }
+  }
+
+  setOptions(options) {
+    let optionsArr = [];
+    if (this.props.defaultOption) {
+      optionsArr = optionsArr.concat(this.props.defaultOption);
+    }
+    optionsArr = optionsArr.concat(options);
+    this.setState({ options: optionsArr, currentOptions: optionsArr });
   }
 
   // Render
   render() {
-    const { placeholder, inputValue } = this.state;
+    const { placeholder, inputFoucsed } = this.state;
     const inputClasses = classNames({
       "Dropdown-Select-input": !this.props.inputClassName
     }, this.props.inputClassName);
 
     return (
-      <div className="Dropdown-Select" onBlur={this.handleInputBlur}>
+      <div className="Dropdown-Select">
         <input
           className={inputClasses}
           ref={ (input) => this.input = input }
           placeholder={placeholder}
+          type="text"
+          onBlur={this.handleInputBlur}
           onChange={this.handleInputChange}
           onClick={this.handleInputClick}
-          type="text"
-          value={inputValue}
-          tabIndex="1"
+          onKeyDown={this.handleKeyPress}
         />
-        { this.renderSpinner() }
-        { this.renderArrow() }
-        { this.renderOptions() }
+        { this.renderSpinnerOrArrow() }
+        { this.renderOptionsContainer() }
       </div>
     );
   }
 
-  renderSpinner() {
-    if (this.state.isLoading) {
+  renderSpinnerOrArrow() {
+    const { isLoading, showOptions } = this.state;
+    if (isLoading) {
       return (
         <div className="spinner input-spinner" />
       );
-    }
-  }
-
-  renderArrow() {
-    if (this.state.isLoading) {
-      return;
-    }
-    return (this.state.isOpen) ?
-    (<i className="arrow-up options-arrow" onClick={this.hideOptions} />) :
-    (<i className="arrow-down options-arrow" onClick={this.showOptions} />)
-  }
-
-  renderOptions() {
-    const { isOpen, currentOptions } = this.state;
-    const styles = { display: (isOpen)? 'block' : 'none' };
-    if (currentOptions.length > 0) {
-      return (
-        <div
-          className="options-container"
-          style={styles}
-          onMouseDown={this.handleOptionsMouseDown}>
-          { currentOptions.map(this.renderOption) }
-        </div>
-      );
     } else {
       return (
-        <div
-          className="options-container"
-          style={styles}>
-          <div className="options-item">
-            No options found...
-          </div>
-        </div>
+        <Arrow
+          isOptionsVisible={showOptions}
+          showOptions={this.showOptions}/>
+      );
+
+    }
+  }
+
+  renderOptionsContainer() {
+    const { showOptions, currentOptions } = this.state;
+    const styles = classNames('options-container',{
+       'show': showOptions,
+       'hide': !showOptions
+    });
+    return (
+      <div
+        ref={ (el) => this.optionsContainer = el }
+        className={styles}
+        onMouseDown={this.handleOptionsMouseDown}>
+        { this.renderOptions(currentOptions) }
+      </div>
+    );
+  }
+
+  renderOptions(currentOptions) {
+    if (currentOptions.length > 0) {
+      return currentOptions.map(this.renderOption)
+    } else {
+      return (
+        <div className="options-item">No options found...</div>
       );
     }
   }
 
   renderOption(option, index) {
-    return (typeof(option) == 'object') ? (
-      this.renderObjectOption(option, index)) : (
-        this.renderStringOption(option, index));
-  }
-
-  renderStringOption(option, index) {
     return (
-      <div
-        className="options-item"
+      <Option
         key={index}
-        onClick={() => this.handleOptionClick(option)}>
-        { option }
-      </div>
-    );
-  }
-
-  renderObjectOption(option, index) {
-    const { labelKey } = this.props;
-
-    return (
-      <div
-        className="options-item"
-        key={index}
-        onClick={() => this.handleOptionClick(option)}>
-        { option[labelKey] }
-      </div>
+        index={index}
+        option={option}
+        isFocused={this.state.focusedOptionIndex == index}
+        labelKey={this.props.labelKey}
+        onClick={this.handleOptionClick}
+        ref={ (el) => {
+          if (this.state.focusedOptionIndex == index) {
+            this.focusedOptionItem = el;
+          }
+        } }
+      />
     );
   }
 }
