@@ -2,6 +2,14 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+const copyWebpackPlugin = new CopyWebpackPlugin([
+  {
+    from: './examples/index.html',
+    to: 'index.html'
+  }
+]);
 
 // Export
 module.exports = merge(common, {
@@ -9,7 +17,7 @@ module.exports = merge(common, {
     app: './examples/index.js'
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './build'
   },
   module: {
     rules: [{
@@ -24,12 +32,7 @@ module.exports = merge(common, {
     }]
   },
    plugins: [
-     new CopyWebpackPlugin(
-     [
-       {
-         from: './examples/index.html',
-         to: 'index.html'
-       }
-     ])
+     new CleanWebpackPlugin(['build']),
+     copyWebpackPlugin
    ]
 });

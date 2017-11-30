@@ -53,7 +53,7 @@ class SimpleSelectForm extends Component {
 
 const ReduxSimpleSelectForm = reduxForm({
   // a unique name for the form
-  form: 'contact'
+  form: 'countriesSelectForm'
 })(SimpleSelectForm)
 
 export default ReduxSimpleSelectForm;
