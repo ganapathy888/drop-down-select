@@ -41,7 +41,7 @@ class SimpleSelectForm extends Component {
     return (
       <form onSubmit={ handleSubmit(this.handleSubmit) }>
         <Field
-          name="capital"
+          name="country"
           options={ countriesList }
           component={this.renderField}
           />
