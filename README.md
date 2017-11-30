@@ -8,7 +8,7 @@ Live Demo: [https://ganapathy888.github.io/dropdown-select/]('https://ganapathy8
 
 ### Examples
 
-[Browse Examples]('https://github.com/ganapathy888/dropdown-select/tree/master/examples')
+[Browse Examples](examples)
 
 ### Features
 
