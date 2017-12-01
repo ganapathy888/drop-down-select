@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js",
     "build:lib": "npx babel src --out-dir lib",
     "build:lib:css": "node-sass src/scss/styles.scss dist/css/dropdown-select.css",
@@ -50,6 +50,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-form": "^7.2.0",
+    "redux-logger": "^3.0.6",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "webpack": "^3.8.1",
