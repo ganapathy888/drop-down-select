@@ -35,7 +35,7 @@ npm install dropdown-select
 Import dropdown select controls and its styles into your component.
 
 ```js
-import { SimpleSelect, AsyncSelect } from "dropdown-select";
+import { SimpleSelect, AsyncSelect, MultiSelect } from "dropdown-select";
 import "dropdown-select/dist/css/dropdown-select.css";
 ```
 
