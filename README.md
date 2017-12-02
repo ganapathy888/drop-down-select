@@ -4,7 +4,8 @@ A group of dropdown select controls for React JS.
 
 ### Demo
 
-Live Demo: [https://ganapathy888.github.io/dropdown-select/]('https://ganapathy888.github.io/dropdown-select/')
+Live Demo:
+[https://ganapathy888.github.io/dropdown-select/]('https://ganapathy888.github.io/dropdown-select/')
 
 ### Examples
 
@@ -12,12 +13,13 @@ Live Demo: [https://ganapathy888.github.io/dropdown-select/]('https://ganapathy8
 
 ### Features
 
-  * Auto complete
-  * Async Options Select
-  * Can control using keyboard
-  * Works with [redux-form](https://github.com/erikras/redux-form/)
+* Auto complete
+* Async Options Select
+* Can control using keyboard
+* Works with [redux-form](https://github.com/erikras/redux-form/)
 
 ### Installation
+
 Add package using Yarn or Npm.
 
 ```sh
@@ -33,8 +35,8 @@ npm install dropdown-select
 Import dropdown select controls and its styles into your component.
 
 ```js
-import { SimpleSelect, AsyncSelect } from 'dropdown-select';
-import 'dropdown-select/dist/css/dropdown-select.css';
+import { SimpleSelect, AsyncSelect } from "dropdown-select";
+import "dropdown-select/dist/css/dropdown-select.css";
 ```
 
 Alternatively, you can import the styles form `.scss` files as follows:
@@ -44,19 +46,17 @@ Alternatively, you can import the styles form `.scss` files as follows:
 ```
 
 Simple select control with array of string options:
+
 ```jsx
 <SimpleSelect
   options={['option1', 'option2', ...]}
   />
 ```
+
 Simple select control with array of object options:
 
 ```jsx
-<SimpleSelect
-  options={[{}, {}]}
-  labelKey="nameKey"
-  valueKey="valueKey"
-  />
+<SimpleSelect options={[{}, {}]} labelKey="nameKey" valueKey="valueKey" />;
 ```
 
 Async Select: (Here the fetchOptions accepts a function that returns `Promise`)
@@ -66,7 +66,15 @@ Async Select: (Here the fetchOptions accepts a function that returns `Promise`)
   fetchOptions={this.fetchOptions}
   labelKey="nameKey"
   valueKey="valueKey"
-  />
+/>;
+```
+
+Multi Select: (Checkbox Styled Options)
+
+It accepts and returns array of options
+
+```jsx
+<MultiSelect options={[]} />;
 ```
 
 Using simple select as custom component in redux-form
@@ -82,7 +90,7 @@ renderSelectField(props) {
         labelKey="name"
         valueKey="id"
         />
-      {touched && error && <span className="error">{error}</span>}  
+      {touched && error && <span className="error">{error}</span>}
     </div>
   );
 }
@@ -104,4 +112,6 @@ render() {
 ```
 
 ### Further Reading
-For advanced use cases and multiselect control, please refer [react-select](https://github.com/JedWatson/react-select)
+
+For advanced use cases, please refer
+[react-select](https://github.com/JedWatson/react-select)
