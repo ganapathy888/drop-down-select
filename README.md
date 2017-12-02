@@ -13,8 +13,9 @@ Live Demo:
 
 ### Features
 
-* Auto complete
+* Multi Select
 * Async Options Select
+* Auto complete
 * Can control using keyboard
 * Works with [redux-form](https://github.com/erikras/redux-form/)
 
