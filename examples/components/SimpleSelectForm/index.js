@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { SimpleSelect  } from '../../../src';
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { SimpleSelect } from '../../../src';
 import countriesList from '../countriesList';
 
 class SimpleSelectForm extends Component {
@@ -24,10 +24,11 @@ class SimpleSelectForm extends Component {
           options={props.options}
           labelKey="name"
           valueKey="id"
-          />
+        />
         <div className="mt-3">
           <h5>
-            Country Code: <span className="text-success">{ props.input.value["id"] }</span>
+            Country Code:{' '}
+            <span className="text-success">{props.input.value['id']}</span>
           </h5>
         </div>
       </div>
@@ -36,16 +37,18 @@ class SimpleSelectForm extends Component {
 
   // Render
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={ handleSubmit(this.handleSubmit) }>
+      <form onSubmit={handleSubmit(this.handleSubmit)}>
         <Field
           name="country"
-          options={ countriesList }
+          options={countriesList}
           component={this.renderField}
-          />
-        <button className="btn btn-primary mt-2" type="submit">Submit</button>
+        />
+        <button className="btn btn-primary mt-2" type="submit">
+          Submit
+        </button>
       </form>
     );
   }
@@ -54,6 +57,6 @@ class SimpleSelectForm extends Component {
 const ReduxSimpleSelectForm = reduxForm({
   // a unique name for the form
   form: 'countriesSelectForm'
-})(SimpleSelectForm)
+})(SimpleSelectForm);
 
 export default ReduxSimpleSelectForm;

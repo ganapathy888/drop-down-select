@@ -18,7 +18,7 @@ class SimpleSelect extends Component {
       showOptions: false,
       isOptionSelected: false,
       focusedOptionIndex: 0,
-      inputFoucsed: false,
+      inputFoucsed: false
     };
     this.handleInputClick = this.handleInputClick.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
@@ -34,13 +34,16 @@ class SimpleSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value, labelKey } = this.props;
+    const { options, value, labelKey, placeholder } = this.props;
     if (options) {
       this.setOptions(options);
     }
-    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    const inputValue = typeof value == 'object' ? value[labelKey] : value;
     if (inputValue) {
       this.input.value = inputValue;
+    }
+    if (placeholder) {
+      this.setState({ placeholder });
     }
   }
 
@@ -49,7 +52,7 @@ class SimpleSelect extends Component {
     if (options) {
       this.setOptions(options);
     }
-    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    const inputValue = typeof value == 'object' ? value[labelKey] : value;
     if (inputValue != undefined) {
       this.input.value = inputValue;
     }
@@ -83,7 +86,7 @@ class SimpleSelect extends Component {
     this.setState({
       showOptions: false,
       isOptionSelected: false,
-      focusedOptionIndex: index,
+      focusedOptionIndex: index
     });
   }
 
@@ -110,7 +113,10 @@ class SimpleSelect extends Component {
       case 13: // Enter
         e.preventDefault();
         e.stopPropagation();
-        this.handleOptionClick(currentOptions[focusedOptionIndex], focusedOptionIndex);
+        this.handleOptionClick(
+          currentOptions[focusedOptionIndex],
+          focusedOptionIndex
+        );
         break;
       case 27: // Esc
         this.showOptions(false);
@@ -126,9 +132,9 @@ class SimpleSelect extends Component {
     if (newValue.length == 0) {
       newOptions = options;
     } else {
-      newOptions = options.filter((option) => {
-        let label = typeof(option) == 'object' ? option[labelKey] : option
-        return label.toLowerCase().indexOf(newValue.toLowerCase()) !== -1
+      newOptions = options.filter(option => {
+        let label = typeof option == 'object' ? option[labelKey] : option;
+        return label.toLowerCase().indexOf(newValue.toLowerCase()) !== -1;
       });
     }
     this.setState({ currentOptions: newOptions });
@@ -146,7 +152,7 @@ class SimpleSelect extends Component {
     }
     if (focusedOptionIndex < 0) {
       focusedOptionIndex = currentOptions.length - 1;
-    } else if (focusedOptionIndex > currentOptions.length -1) {
+    } else if (focusedOptionIndex > currentOptions.length - 1) {
       focusedOptionIndex = 0;
     }
     this.setState({ focusedOptionIndex }, () => {
@@ -185,15 +191,18 @@ class SimpleSelect extends Component {
   // Render
   render() {
     const { placeholder, showOptions, inputFoucsed } = this.state;
-    const inputClasses = classNames({
-      "Dropdown-Select-input": !this.props.inputClassName
-    }, this.props.inputClassName);
+    const inputClasses = classNames(
+      {
+        'Dropdown-Select-input': !this.props.inputClassName
+      },
+      this.props.inputClassName
+    );
 
     return (
       <div className="Dropdown-Select">
         <input
           className={inputClasses}
-          ref={ (input) => this.input = input }
+          ref={input => (this.input = input)}
           placeholder={placeholder}
           type="text"
           onBlur={this.handleInputBlur}
@@ -201,37 +210,34 @@ class SimpleSelect extends Component {
           onClick={this.handleInputClick}
           onKeyDown={this.handleKeyPress}
         />
-      <Arrow
-        isOptionsVisible={showOptions}
-        showOptions={this.showOptions}/>
-        { this.renderOptionsContainer() }
+        <Arrow isOptionsVisible={showOptions} showOptions={this.showOptions} />
+        {this.renderOptionsContainer()}
       </div>
     );
   }
 
   renderOptionsContainer() {
     const { showOptions, currentOptions } = this.state;
-    const styles = classNames('options-container',{
-       'show': showOptions,
-       'hide': !showOptions
+    const styles = classNames('options-container', {
+      show: showOptions,
+      hide: !showOptions
     });
     return (
       <div
-        ref={ (el) => this.optionsContainer = el }
+        ref={el => (this.optionsContainer = el)}
         className={styles}
-        onMouseDown={this.handleOptionsMouseDown}>
-        { this.renderOptions(currentOptions) }
+        onMouseDown={this.handleOptionsMouseDown}
+      >
+        {this.renderOptions(currentOptions)}
       </div>
     );
   }
 
   renderOptions(currentOptions) {
     if (currentOptions.length > 0) {
-      return currentOptions.map(this.renderOption)
+      return currentOptions.map(this.renderOption);
     } else {
-      return (
-        <div className="options-item">No options found...</div>
-      );
+      return <div className="options-item">No options found...</div>;
     }
   }
 
@@ -244,11 +250,11 @@ class SimpleSelect extends Component {
         isFocused={this.state.focusedOptionIndex == index}
         labelKey={this.props.labelKey}
         onClick={this.handleOptionClick}
-        ref={ (el) => {
+        ref={el => {
           if (this.state.focusedOptionIndex == index) {
             this.focusedOptionItem = el;
           }
-        } }
+        }}
       />
     );
   }

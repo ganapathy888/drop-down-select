@@ -18,7 +18,7 @@ class AsyncSelect extends Component {
       showOptions: false,
       isOptionSelected: false,
       focusedOptionIndex: 0,
-      inputFoucsed: false,
+      inputFoucsed: false
     };
     this.handleInputClick = this.handleInputClick.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
@@ -35,13 +35,16 @@ class AsyncSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value, labelKey } = this.props;
+    const { options, value, labelKey, placeholder } = this.props;
     if (options) {
       this.setOptions(options);
     }
-    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    const inputValue = typeof value == 'object' ? value[labelKey] : value;
     if (inputValue) {
       this.input.value = inputValue;
+    }
+    if (placeholder) {
+      this.setState({ placeholder });
     }
   }
 
@@ -50,7 +53,7 @@ class AsyncSelect extends Component {
     if (options) {
       this.setOptions(options);
     }
-    const inputValue = typeof(value) == 'object' ? value[labelKey] : value
+    const inputValue = typeof value == 'object' ? value[labelKey] : value;
     if (inputValue != undefined) {
       this.input.value = inputValue;
     }
@@ -60,7 +63,7 @@ class AsyncSelect extends Component {
   handleInputChange(newValue) {
     if (this.props.fetchOptions) {
       this.setState({ isLoading: true });
-      this.props.fetchOptions(newValue.target.value).then((response) => {
+      this.props.fetchOptions(newValue.target.value).then(response => {
         this.setState({ isLoading: false });
         if (Array.isArray(response)) {
           this.setOptions(response);
@@ -92,7 +95,7 @@ class AsyncSelect extends Component {
     this.setState({
       showOptions: false,
       isOptionSelected: false,
-      focusedOptionIndex: index,
+      focusedOptionIndex: index
     });
   }
 
@@ -119,7 +122,10 @@ class AsyncSelect extends Component {
       case 13: // Enter
         e.preventDefault();
         e.stopPropagation();
-        this.handleOptionClick(currentOptions[focusedOptionIndex], focusedOptionIndex);
+        this.handleOptionClick(
+          currentOptions[focusedOptionIndex],
+          focusedOptionIndex
+        );
         break;
       case 27: // Esc
         this.showOptions(false);
@@ -140,7 +146,7 @@ class AsyncSelect extends Component {
     }
     if (focusedOptionIndex < 0) {
       focusedOptionIndex = currentOptions.length - 1;
-    } else if (focusedOptionIndex > currentOptions.length -1) {
+    } else if (focusedOptionIndex > currentOptions.length - 1) {
       focusedOptionIndex = 0;
     }
     this.setState({ focusedOptionIndex }, () => {
@@ -178,15 +184,18 @@ class AsyncSelect extends Component {
   // Render
   render() {
     const { placeholder, inputFoucsed } = this.state;
-    const inputClasses = classNames({
-      "Dropdown-Select-input": !this.props.inputClassName
-    }, this.props.inputClassName);
+    const inputClasses = classNames(
+      {
+        'Dropdown-Select-input': !this.props.inputClassName
+      },
+      this.props.inputClassName
+    );
 
     return (
       <div className="Dropdown-Select">
         <input
           className={inputClasses}
-          ref={ (input) => this.input = input }
+          ref={input => (this.input = input)}
           placeholder={placeholder}
           type="text"
           onBlur={this.handleInputBlur}
@@ -194,8 +203,8 @@ class AsyncSelect extends Component {
           onClick={this.handleInputClick}
           onKeyDown={this.handleKeyPress}
         />
-        { this.renderSpinnerOrArrow() }
-        { this.renderOptionsContainer() }
+        {this.renderSpinnerOrArrow()}
+        {this.renderOptionsContainer()}
       </div>
     );
   }
@@ -203,42 +212,36 @@ class AsyncSelect extends Component {
   renderSpinnerOrArrow() {
     const { isLoading, showOptions } = this.state;
     if (isLoading) {
-      return (
-        <div className="spinner input-spinner" />
-      );
+      return <div className="spinner input-spinner" />;
     } else {
       return (
-        <Arrow
-          isOptionsVisible={showOptions}
-          showOptions={this.showOptions}/>
+        <Arrow isOptionsVisible={showOptions} showOptions={this.showOptions} />
       );
-
     }
   }
 
   renderOptionsContainer() {
     const { showOptions, currentOptions } = this.state;
-    const styles = classNames('options-container',{
-       'show': showOptions,
-       'hide': !showOptions
+    const styles = classNames('options-container', {
+      show: showOptions,
+      hide: !showOptions
     });
     return (
       <div
-        ref={ (el) => this.optionsContainer = el }
+        ref={el => (this.optionsContainer = el)}
         className={styles}
-        onMouseDown={this.handleOptionsMouseDown}>
-        { this.renderOptions(currentOptions) }
+        onMouseDown={this.handleOptionsMouseDown}
+      >
+        {this.renderOptions(currentOptions)}
       </div>
     );
   }
 
   renderOptions(currentOptions) {
     if (currentOptions.length > 0) {
-      return currentOptions.map(this.renderOption)
+      return currentOptions.map(this.renderOption);
     } else {
-      return (
-        <div className="options-item">No options found...</div>
-      );
+      return <div className="options-item">No options found...</div>;
     }
   }
 
@@ -251,11 +254,11 @@ class AsyncSelect extends Component {
         isFocused={this.state.focusedOptionIndex == index}
         labelKey={this.props.labelKey}
         onClick={this.handleOptionClick}
-        ref={ (el) => {
+        ref={el => {
           if (this.state.focusedOptionIndex == index) {
             this.focusedOptionItem = el;
           }
-        } }
+        }}
       />
     );
   }

@@ -1,19 +1,19 @@
 // Vendor Imports
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 // Local Imports
-import classNames from "./classNames";
-import CheckFieldOption from "./CheckFieldOption";
-import Arrow from "./Arrow";
-import CountBadge from "./CountBadge";
+import classNames from './classNames';
+import CheckFieldOption from './CheckFieldOption';
+import Arrow from './Arrow';
+import CountBadge from './CountBadge';
 
 // Dropdown Select
 class MultiSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeholder: "Choose",
+      placeholder: 'Choose',
       options: [],
       currentOptions: [],
       values: [],
@@ -36,11 +36,14 @@ class MultiSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value } = this.props;
+    const { options, value, placeholder } = this.props;
     if (value) {
       this.setState({ values: value });
     }
     this.setOptions(options);
+    if (placeholder) {
+      this.setState({ placeholder });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -97,12 +100,12 @@ class MultiSelect extends Component {
       case 40: // Down Arrow
         e.preventDefault();
         e.stopPropagation();
-        this.navigateOptions("down");
+        this.navigateOptions('down');
         break;
       case 38: // Up Arrow
         e.preventDefault();
         e.stopPropagation();
-        this.navigateOptions("up");
+        this.navigateOptions('up');
         break;
       case 13: // Enter
         e.preventDefault();
@@ -129,7 +132,7 @@ class MultiSelect extends Component {
       newOptions = options;
     } else {
       newOptions = options.filter(option => {
-        let label = typeof option == "object" ? option[labelKey] : option;
+        let label = typeof option == 'object' ? option[labelKey] : option;
         return label.toLowerCase().indexOf(newValue.toLowerCase()) !== -1;
       });
     }
@@ -141,9 +144,9 @@ class MultiSelect extends Component {
       return;
     }
     let { focusedOptionIndex, currentOptions } = this.state;
-    if (dir == "down") {
+    if (dir == 'down') {
       focusedOptionIndex += 1;
-    } else if (dir == "up") {
+    } else if (dir == 'up') {
       focusedOptionIndex -= 1;
     }
     if (focusedOptionIndex < 0) {
@@ -199,7 +202,7 @@ class MultiSelect extends Component {
     const { placeholder, showOptions, inputFoucsed } = this.state;
     const inputClasses = classNames(
       {
-        "Dropdown-Select-input": !this.props.inputClassName
+        'Dropdown-Select-input': !this.props.inputClassName
       },
       this.props.inputClassName
     );
@@ -225,7 +228,7 @@ class MultiSelect extends Component {
 
   renderOptionsContainer() {
     const { showOptions, currentOptions } = this.state;
-    const styles = classNames("options-container", {
+    const styles = classNames('options-container', {
       show: showOptions,
       hide: !showOptions
     });
