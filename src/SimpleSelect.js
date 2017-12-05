@@ -34,28 +34,11 @@ class SimpleSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value, labelKey, placeholder } = this.props;
-    if (options) {
-      this.setOptions(options);
-    }
-    const inputValue = typeof value == 'object' ? value[labelKey] : value;
-    if (inputValue) {
-      this.input.value = inputValue;
-    }
-    if (placeholder) {
-      this.setState({ placeholder });
-    }
+    this._loadProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { options, value, labelKey } = nextProps;
-    if (options) {
-      this.setOptions(options);
-    }
-    const inputValue = typeof value == 'object' ? value[labelKey] : value;
-    if (inputValue != undefined) {
-      this.input.value = inputValue;
-    }
+    this._loadProps(nextProps);
   }
 
   // Handlers
@@ -76,18 +59,7 @@ class SimpleSelect extends Component {
   }
 
   handleOptionClick(newValue, index) {
-    if (newValue == this.props.value) {
-      this.input.value = this.props.value[this.props.labelKey];
-    } else {
-      if (this.props.onChange) {
-        this.props.onChange(newValue);
-      }
-    }
-    this.setState({
-      showOptions: false,
-      isOptionSelected: false,
-      focusedOptionIndex: index
-    });
+    this._handleOptionChange(newValue, index);
   }
 
   handleOptionsMouseDown(e) {
@@ -125,6 +97,50 @@ class SimpleSelect extends Component {
   }
 
   // Private
+  _handleOptionChange(option, index) {
+    const { onChange, returnValueOnly, valueKey } = this.props;
+    if (onChange) {
+      const value = returnValueOnly ? option[valueKey] : option;
+      this.props.onChange(value);
+    }
+    this.setState({
+      showOptions: false,
+      isOptionSelected: false,
+      focusedOptionIndex: index
+    });
+  }
+
+  _loadProps({ options, value, labelKey, autoComplete, placeholder }) {
+    if (options) {
+      this.setOptions(options);
+    }
+    if (value) {
+      let inputValue = '';
+      if (labelKey) {
+        inputValue =
+          typeof value == 'object'
+            ? value[labelKey]
+            : this._findLabelByValue(options, value);
+      } else {
+        inputValue = value;
+      }
+      this.input.value = inputValue;
+    }
+    if (autoComplete == false) {
+      this.input.readOnly = true;
+    }
+    if (placeholder) {
+      this.setState({ placeholder });
+    }
+  }
+
+  _findLabelByValue(options, value) {
+    const index = options.findIndex(
+      option => option[this.props.valueKey].toLowerCase() == value.toLowerCase()
+    );
+    return options[index][this.props.labelKey];
+  }
+
   filterOptions(newValue) {
     const { labelKey } = this.props;
     const { options } = this.state;
@@ -137,7 +153,13 @@ class SimpleSelect extends Component {
         return label.toLowerCase().indexOf(newValue.toLowerCase()) !== -1;
       });
     }
-    this.setState({ currentOptions: newOptions });
+    if (this.props.autoComplete == false) {
+      const option = newOptions[0];
+      const index = options.findIndex(item => item == option);
+      this.setState({ focusedOptionIndex: index });
+    } else {
+      this.setState({ currentOptions: newOptions });
+    }
   }
 
   navigateOptions(dir) {
