@@ -114,7 +114,7 @@ class SimpleSelect extends Component {
     if (options) {
       this.setOptions(options);
     }
-    if (value) {
+    if (value != undefined) {
       let inputValue = '';
       if (labelKey) {
         inputValue =
