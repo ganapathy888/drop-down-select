@@ -116,7 +116,7 @@ class SimpleSelect extends Component {
     }
     if (value != undefined) {
       let inputValue = '';
-      if (labelKey) {
+      if (value && labelKey) {
         inputValue =
           typeof value == 'object'
             ? value[labelKey]
@@ -138,6 +138,7 @@ class SimpleSelect extends Component {
     const index = options.findIndex(
       option => option[this.props.valueKey].toLowerCase() == value.toLowerCase()
     );
+    console.log('index', index, value);
     return options[index][this.props.labelKey];
   }
 
