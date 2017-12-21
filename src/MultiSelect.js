@@ -37,13 +37,16 @@ class MultiSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    const { options, value, placeholder } = this.props;
+    const { options, value, placeholder, autoComplete } = this.props;
     if (value) {
       this.setState({ values: value });
     }
     this.setOptions(options);
     if (placeholder) {
       this.setState({ placeholder });
+    }
+    if (autoComplete == false) {
+      this.input.readOnly = true;
     }
   }
 
