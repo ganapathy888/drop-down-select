@@ -1,62 +1,37 @@
+// Vendor Imports
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { SimpleSelect } from '../../../src';
-import countriesList from '../countriesList';
+import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
+
+// Local Imports
+import countriesList from './countriesList';
+import Form from './Form';
 
 class SimpleSelectForm extends Component {
-  constructor(props) {
-    super(props);
-    this.renderField = this.renderField.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  // Handlers
-  handleSubmit(values) {
-    console.log(values);
-    alert('Check your browser console for form output');
-  }
-
-  renderField(props) {
+  // Render
+  render() {
+    const { country } = this.props;
     return (
-      <div>
-        <SimpleSelect
-          {...props.input}
-          options={props.options}
-          labelKey="name"
-          valueKey="id"
-        />
-        <div className="mt-3">
-          <h5>
-            Country Code:{' '}
-            <span className="text-success">{props.input.value['id']}</span>
-          </h5>
+      <div className="simple-select-form-example">
+        <h5>Simple Dropdown Select</h5>
+        <p className="hint text-info">(Default Styles Applied)</p>
+        <Form options={countriesList} />
+        <div className="mt-5">
+          {country && (
+            <div className="alert alert-warning" role="alert">
+              <pre>{JSON.stringify(country, null, 4)}</pre>
+            </div>
+          )}
         </div>
       </div>
     );
   }
-
-  // Render
-  render() {
-    const { handleSubmit } = this.props;
-
-    return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
-        <Field
-          name="country"
-          options={countriesList}
-          component={this.renderField}
-        />
-        <button className="btn btn-primary mt-2" type="submit">
-          Submit
-        </button>
-      </form>
-    );
-  }
 }
 
-const ReduxSimpleSelectForm = reduxForm({
-  // a unique name for the form
-  form: 'countriesSelectForm'
-})(SimpleSelectForm);
+// Redux Form
+const selector = formValueSelector('simpleSelectForm');
 
-export default ReduxSimpleSelectForm;
+// Export
+export default connect(state => ({
+  country: selector(state, 'country')
+}))(SimpleSelectForm);

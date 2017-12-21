@@ -3,6 +3,16 @@ import { Field, reduxForm } from 'redux-form';
 import { MultiSelect } from '../../../src';
 
 class MultiSelectForm extends Component {
+  constructor(props) {
+    super(props);
+    this.renderMultiSelectField = this.renderMultiSelectField.bind(this);
+  }
+
+  // Component LifeCycle
+  componentDidMount() {
+    this.props.initialize({ foods: [] });
+  }
+
   // Render
   renderMultiSelectField({ input, options }) {
     return (
@@ -19,11 +29,14 @@ class MultiSelectForm extends Component {
   render() {
     const { handleSubmit, foodValues } = this.props;
     const options = [
-      { id: 'Cake', label: 'Cake' },
+      { id: 'Pizza', label: 'Pizza' },
+      { id: 'Chocolate', label: 'Chocolate' },
       { id: 'Ice Cream', label: 'Ice Cream' },
-      { id: 'Burger', label: 'Burger' },
-      { id: 'Idly', label: 'Idly' },
-      { id: 'Dosai', label: 'Dosai' }
+      { id: 'Steak', label: 'Steak' },
+      { id: 'French Fries', label: 'French Fries' },
+      { id: 'Burgers', label: 'Burgers' },
+      { id: 'Taco', label: 'Taco' },
+      { id: 'Cake', label: 'Cake' }
     ];
     return (
       <form onSubmit={handleSubmit}>
@@ -32,8 +45,12 @@ class MultiSelectForm extends Component {
           options={options}
           component={this.renderMultiSelectField}
         />
-        <button className="btn btn-primary mt-3" type="submit">
-          Submit
+        <button
+          className="btn mt-3"
+          type="button"
+          onClick={() => this.props.reset()}
+        >
+          Reset
         </button>
       </form>
     );

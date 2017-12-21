@@ -1,0 +1,11 @@
+.dropdown-select__input,
+.dropdown-select__input:focus {
+  border: none;
+  outline: none;
+}
+
+.dropdown-select__input {
+  width: calc(100% - 25px);
+  padding: 6px 12px;
+  border-radius: 0.25rem;
+}

@@ -1,7 +1,8 @@
-import SimpleSelect from "./SimpleSelect";
-import AsyncSelect from "./AsyncSelect";
-import MultiSelect from "./MultiSelect";
+import Select from './components/controls/Select';
+import AsyncSelect from './components/controls/AsyncSelect';
+import MultiSelect from './components/controls/MultiSelect';
 
-export { SimpleSelect };
+export { Select };
+export { Select as SimpleSelect };
 export { AsyncSelect };
 export { MultiSelect };

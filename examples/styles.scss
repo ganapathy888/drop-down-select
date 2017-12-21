@@ -1,6 +1,19 @@
-@import "~bootstrap/scss/bootstrap.scss";
-@import "../src/scss/styles.scss";
+@import '~bootstrap/scss/bootstrap.scss';
+@import '../src/styles/index';
 
 body {
   padding-bottom: 100px;
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.hint {
+  font-size: 15px;
 }

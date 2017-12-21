@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Count Badge
-class SelectAllControl extends Component {
+class SelectDeselectAll extends Component {
   // Handlers
   onChange(e) {
     this.props.onChange(e.target.checked);
@@ -11,8 +11,9 @@ class SelectAllControl extends Component {
   // Render
   render() {
     return (
-      <div className="select-all-control">
+      <div className="dropdown-select__select-deselect-all">
         <input
+          disabled={this.props.disabled}
           type="checkbox"
           checked={this.props.checked}
           onChange={this.onChange.bind(this)}
@@ -23,4 +24,4 @@ class SelectAllControl extends Component {
 }
 
 // Export
-export default SelectAllControl;
+export default SelectDeselectAll;
