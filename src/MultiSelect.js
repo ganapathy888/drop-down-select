@@ -6,14 +6,14 @@ import ReactDOM from 'react-dom';
 import classNames from './classNames';
 import CheckFieldOption from './CheckFieldOption';
 import Arrow from './Arrow';
-import CountBadge from './CountBadge';
+import SelectAllControl from './SelectAllControl';
 
 // Dropdown Select
 class MultiSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeholder: 'Choose',
+      placeholder: 'Select',
       options: [],
       currentOptions: [],
       values: [],
@@ -32,6 +32,7 @@ class MultiSelect extends Component {
     this.showOptions = this.showOptions.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.renderOptionsContainer = this.renderOptionsContainer.bind(this);
+    this.checkAllOptions = this.checkAllOptions.bind(this);
   }
 
   // Component LifeCycle
@@ -71,20 +72,28 @@ class MultiSelect extends Component {
     }
   }
 
-  handleOptionClick(newValue, index, isChecked) {
+  handleOptionClick(option, index, isChecked) {
     this.input.focus();
-    let { values } = this.state;
+    const { values } = this.state;
+    const { labelKey } = this.props;
+    let newValues = [];
     if (isChecked) {
-      values.push(newValue);
+      newValues = values.concat(option);
     } else {
-      values.splice(this.findOptionIndexFromValues(newValue), 1);
+      newValues = values.filter(item => {
+        if (labelKey) {
+          return item[labelKey] !== option[labelKey];
+        } else {
+          return item !== option;
+        }
+      });
     }
     this.setState({
       isOptionSelected: false,
       focusedOptionIndex: index,
       inputFoucsed: true
     });
-    this.props.onChange(values);
+    this.props.onChange(newValues);
   }
 
   handleOptionsMouseDown(e) {
@@ -121,6 +130,10 @@ class MultiSelect extends Component {
         this.showOptions(false);
         break;
     }
+  }
+
+  checkAllOptions(flag) {
+    flag ? this.props.onChange(this.state.options) : this.props.onChange([]);
   }
 
   // Private
@@ -199,7 +212,7 @@ class MultiSelect extends Component {
 
   // Render
   render() {
-    const { placeholder, showOptions, inputFoucsed } = this.state;
+    const { options, values, showOptions, inputFoucsed } = this.state;
     const inputClasses = classNames(
       {
         'Dropdown-Select-input': !this.props.inputClassName
@@ -212,18 +225,30 @@ class MultiSelect extends Component {
         <input
           className={inputClasses}
           ref={input => (this.input = input)}
-          placeholder={placeholder}
+          placeholder={this.renderPlaceholder()}
           type="text"
           onBlur={this.handleInputBlur}
           onChange={this.handleInputChange}
           onClick={this.handleInputClick}
           onKeyDown={this.handleKeyPress}
         />
-        <CountBadge selectCount={this.state.values.length} />
+        <SelectAllControl
+          checked={options.length == values.length}
+          onChange={this.checkAllOptions}
+        />
         <Arrow isOptionsVisible={showOptions} showOptions={this.showOptions} />
         {this.renderOptionsContainer()}
       </div>
     );
+  }
+
+  renderPlaceholder() {
+    const { placeholder, values, options } = this.state;
+    let itemsCount = values.length;
+    if (itemsCount == options.length) {
+      return 'All Items';
+    }
+    return itemsCount > 0 ? `${itemsCount} Item(s)` : 'Select';
   }
 
   renderOptionsContainer() {

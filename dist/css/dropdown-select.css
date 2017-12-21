@@ -30,18 +30,13 @@
       background-color: #e0e0e0; }
     .Dropdown-Select .options-container .checkfield-options-item input {
       margin-right: 10px; }
-  .Dropdown-Select .count-badge {
-    pointer-events: none;
-    background-color: gray;
-    color: white;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-    text-align: center;
+  .Dropdown-Select .select-all-control {
     position: absolute;
-    top: 15%;
+    top: 23%;
     right: 30px; }
+    .Dropdown-Select .select-all-control input {
+      width: 20px;
+      height: 20px; }
   .Dropdown-Select .options-arrow {
     position: absolute;
     top: 45%;
@@ -72,7 +67,7 @@
     transform: rotate(360deg); } }
 
 .spinner {
-  content: "";
+  content: '';
   box-sizing: border-box;
   width: 20px;
   height: 20px;
