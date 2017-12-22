@@ -247,11 +247,19 @@ class MultiSelect extends Component {
 
   renderPlaceholder() {
     const { placeholder, values, options } = this.state;
+    const { placeholderName } = this.props;
     let itemsCount = values.length;
+    let scopeSingularName = placeholderName ? placeholderName[0] : 'Item';
+    let scopePluralName = placeholderName ? placeholderName[1] : 'Items';
     if (itemsCount == options.length) {
-      return 'All Items';
+      return `All ${scopePluralName}`;
+    } else if (itemsCount == 1) {
+      return `${itemsCount} ${scopeSingularName}`;
+    } else if (itemsCount > 0) {
+      return `${itemsCount} ${scopePluralName}`;
+    } else {
+      return `Select ${scopeSingularName}`;
     }
-    return itemsCount > 0 ? `${itemsCount} Item(s)` : 'Select';
   }
 
   renderOptionsContainer() {

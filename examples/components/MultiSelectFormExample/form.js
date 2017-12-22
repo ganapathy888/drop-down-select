@@ -11,6 +11,7 @@ class MultiSelectForm extends Component {
         options={options}
         labelKey="label"
         valueKey="id"
+        placeholderName={['timeslot', 'timeslots']}
       />
     );
   }
