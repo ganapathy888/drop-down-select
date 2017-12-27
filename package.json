@@ -1,22 +1,30 @@
 {
   "name": "dropdown-select",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "description": "A Dropdown Select Control for React JS",
   "main": "lib/index.js",
-  "files": ["lib", "dist"],
+  "files": [
+    "lib",
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js",
     "build:lib": "npx babel src --out-dir lib",
-    "build:styles":
-      "node-sass src/styles/index.scss dist/css/dropdown-select.css",
+    "build:styles": "node-sass src/styles/index.scss dist/css/dropdown-select.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ganapathy888/dropdown-select.git"
   },
-  "keywords": ["Dropdown", "Select", "Control", "React", "JS"],
+  "keywords": [
+    "Dropdown",
+    "Select",
+    "Control",
+    "React",
+    "JS"
+  ],
   "author": "Thanga Ganapathy",
   "license": "ISC",
   "bugs": {
