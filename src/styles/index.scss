@@ -1,0 +1,18 @@
+.dropdown-select {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+
+  .dropdown-select__container {
+    @import './input';
+    @import './arrow';
+    @import './select_deselect_all';
+    @import './spinner';
+  }
+  @import './options';
+}
+
+.dropdown-select--focused {
+  border-color: #80bdff;
+}

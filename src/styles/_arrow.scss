@@ -1,0 +1,50 @@
+.dropdown-select__arrow {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeee+100 */
+  background: #ffffff; /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    #ffffff 0%,
+    #eeeeee 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    #ffffff 0%,
+    #eeeeee 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #eeeeee 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(
+      startColorstr='#ffffff',
+      endColorstr='#eeeeee',
+      GradientType=0
+    ); /* IE6-9 */
+  display: inline-block;
+  width: 25px;
+  height: 36px;
+  float: right;
+  cursor: pointer;
+  border-left: 1px solid #ced4da;
+  border-radius: 0 0.25rem 0.25rem 0;
+  position: relative;
+
+  .dropdown-select__arrow-icon {
+    position: absolute;
+    top: 45%;
+    right: 7px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+
+  .arrow-down {
+    border-top: 5px solid gray;
+  }
+
+  .arrow-up {
+    border-bottom: 5px solid gray;
+  }
+}

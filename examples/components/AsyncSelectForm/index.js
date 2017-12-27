@@ -1,72 +1,39 @@
-import React, { Component } from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { AsyncSelect } from '../../../src';
-import 'whatwg-fetch';
+// Vendor Imports
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 
-class ContactForm extends Component {
-  constructor(props) {
-    super(props);
-    this.fetchOptions = this.fetchOptions.bind(this);
-    this.renderField = this.renderField.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+// Local Imports
+import Form from './Form';
 
-  // Handlers
-  fetchOptions(value) {
-    return fetch('https://api.cdnjs.com/libraries?search=' + value)
-     .then(function(response) {
-       return response.json()
-     }).then(function(json) {
-       return json.results.slice(0, 25);
-     }).catch(function(ex) {
-       console.log('parsing failed', ex)
-     });
-  }
-
-  handleSubmit(values) {
-    console.log(values);
-    alert('Check your browser console for form output');
-  }
-
-  renderField(props) {
+// Async Select Form Example
+class AsyncSelectForm extends Component {
+  // Render
+  render() {
+    const { lib } = this.props;
     return (
-      <div>
-        <AsyncSelect
-          {...props.input}
-          fetchOptions={this.fetchOptions}
-          labelKey="name"
-          valueKey="id"
-          />
-        <div className="mt-3">
-          <h6>
-            URL:
-            <div className="text-primary">
-              { props.input.value['latest'] }
+      <div className="async-select-form-example">
+        <h5>Async Dropdown Select</h5>
+        <p className="hint text-info">
+          (Uses CDNJS Public API to Fetch Options)
+        </p>
+        <Form onSubmit={this.handleSubmit} />
+        <div className="mt-5">
+          {lib && (
+            <div className="alert alert-warning" role="alert">
+              <pre>{JSON.stringify(lib, null, 4)}</pre>
             </div>
-          </h6>
+          )}
         </div>
       </div>
     );
   }
-
-  // Render
-  render() {
-    const { handleSubmit } = this.props
-    return (
-      <form onSubmit={ handleSubmit(this.handleSubmit) }>
-        <Field
-          name="lib"
-          component={this.renderField}
-          />
-        <button className="btn btn-primary mt-2" type="submit">Submit</button>
-      </form>
-    );
-  }
 }
 
-const ReduxContactForm = reduxForm({
-  // a unique name for the form
-  form: 'jsLibFindingForm'
-})(ContactForm)
+// Redux Form
+const selector = formValueSelector('asyncSelectFrom');
 
-export default ReduxContactForm;
+// Export
+export default connect(state => ({
+  lib: selector(state, 'lib')
+}))(AsyncSelectForm);

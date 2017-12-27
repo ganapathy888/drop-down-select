@@ -1,53 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Form from "./form";
-import { formValueSelector } from "redux-form";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Form from './form';
+import { formValueSelector } from 'redux-form';
 
 class MultiSelectFormExample extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  // Handlers
-  handleSubmit(values) {
-    console.log(values);
-    alert("Check your browser console for form output");
-  }
-
   // Render
   render() {
+    const { foods } = this.props;
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} />
-        <h6 className="mt-3">Your Fav Food Items:</h6>
-        {this.renderTags()}
+        <h5>Multi Select</h5>
+        <p className="hint text-info">(Checkboxed Options)</p>
+        <Form />
+        <div className="mt-5">
+          {foods &&
+            foods.length > 0 && (
+              <div className="alert alert-warning" role="alert">
+                <pre>{JSON.stringify(foods, null, 4)}</pre>
+              </div>
+            )}
+        </div>
       </div>
     );
   }
-
-  renderTags() {
-    if (this.props.formValues) {
-      const { foods } = this.props.formValues;
-      return (
-        <div>
-          {foods &&
-            foods.map((item, i) => (
-              <span key={i} className="badge badge-pill badge-info mr-2">
-                {typeof item == "object" ? item["id"] : item}
-              </span>
-            ))}
-        </div>
-      );
-    }
-  }
 }
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formValues: form.multiSelectForm ? form.multiSelectForm.values : []
-  };
-};
+// Redux Form
+const selector = formValueSelector('multiSelectForm');
 
 // Export
-export default connect(mapStateToProps)(MultiSelectFormExample);
+export default connect(state => ({
+  foods: selector(state, 'foods')
+}))(MultiSelectFormExample);

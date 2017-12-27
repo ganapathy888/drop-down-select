@@ -1,0 +1,21 @@
+.dropdown-select__spinner {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  border-top-color: #333;
+  animation: dropdown-select__spinner 0.6s linear infinite;
+}
+
+@keyframes dropdown-select__spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

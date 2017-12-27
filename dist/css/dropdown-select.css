@@ -1,79 +1,96 @@
-.Dropdown-Select {
+.dropdown-select {
   position: relative;
   width: 100%;
-  min-height: 35px; }
-  .Dropdown-Select .Dropdown-Select-input {
-    padding: 8px;
-    display: block;
-    width: 100%;
-    height: 100%; }
-  .Dropdown-Select .show {
-    display: block; }
-  .Dropdown-Select .hide {
-    display: none; }
-  .Dropdown-Select .options-container {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem; }
+  .dropdown-select .dropdown-select__container .dropdown-select__input,
+  .dropdown-select .dropdown-select__container .dropdown-select__input:focus {
+    border: none;
+    outline: none; }
+  .dropdown-select .dropdown-select__container .dropdown-select__input {
+    width: calc(100% - 25px);
+    padding: 6px 12px;
+    border-radius: 0.25rem; }
+  .dropdown-select .dropdown-select__container .dropdown-select__arrow {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeee+100 */
+    background: #ffffff;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 0%, #eeeeee 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
+    /* IE6-9 */
+    display: inline-block;
+    width: 25px;
+    height: 36px;
+    float: right;
+    cursor: pointer;
+    border-left: 1px solid #ced4da;
+    border-radius: 0 0.25rem 0.25rem 0;
+    position: relative; }
+    .dropdown-select .dropdown-select__container .dropdown-select__arrow .dropdown-select__arrow-icon {
+      position: absolute;
+      top: 45%;
+      right: 7px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent; }
+    .dropdown-select .dropdown-select__container .dropdown-select__arrow .arrow-down {
+      border-top: 5px solid gray; }
+    .dropdown-select .dropdown-select__container .dropdown-select__arrow .arrow-up {
+      border-bottom: 5px solid gray; }
+  .dropdown-select .dropdown-select__container .dropdown-select__select-deselect-all {
+    position: absolute;
+    top: 23%;
+    right: 35px; }
+    .dropdown-select .dropdown-select__container .dropdown-select__select-deselect-all input {
+      width: 20px;
+      height: 20px; }
+  .dropdown-select .dropdown-select__container .dropdown-select__spinner {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #333;
+    animation: dropdown-select__spinner 0.6s linear infinite; }
+
+@keyframes dropdown-select__spinner {
+  to {
+    transform: rotate(360deg); } }
+  .dropdown-select .dropdown-select__options {
     z-index: 9999;
     position: absolute;
     background-color: white;
-    max-height: 150px;
+    max-height: 200px;
     overflow-x: hidden;
     overflow-y: auto;
     outline: none;
     border: 1px solid rgba(0, 0, 0, 0.15);
     width: 100%; }
-    .Dropdown-Select .options-container .options-item {
-      padding: 10px;
+    .dropdown-select .dropdown-select__options .dropdown-select__options__option {
+      padding: 6px 12px;
       cursor: pointer; }
-    .Dropdown-Select .options-container .options-item:hover {
-      background-color: #e0e0e0; }
-    .Dropdown-Select .options-container .options-item-hovered {
-      background-color: #e0e0e0; }
-    .Dropdown-Select .options-container .checkfield-options-item input {
+    .dropdown-select .dropdown-select__options .dropdown-select__options__option:hover,
+    .dropdown-select .dropdown-select__options .dropdown-select__options__option--focused {
+      background-color: #0069d9;
+      color: white; }
+    .dropdown-select .dropdown-select__options .dropdown-select__options__checkbox-option input {
       margin-right: 10px; }
-  .Dropdown-Select .select-all-control {
-    position: absolute;
-    top: 23%;
-    right: 30px; }
-    .Dropdown-Select .select-all-control input {
-      width: 20px;
-      height: 20px; }
-  .Dropdown-Select .options-arrow {
-    position: absolute;
-    top: 45%;
-    right: 8px; }
-  .Dropdown-Select .input-spinner {
-    position: absolute;
-    top: 50%;
-    right: 8px; }
+  .dropdown-select .dropdown-select__options-open {
+    display: block; }
+  .dropdown-select .dropdown-select__options-close {
+    display: none; }
 
-.arrow-down {
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid gray;
-  cursor: pointer; }
-
-.arrow-up {
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid gray;
-  cursor: pointer; }
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg); } }
-
-.spinner {
-  content: '';
-  box-sizing: border-box;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  border-top-color: #333;
-  animation: spinner 0.6s linear infinite; }
+.dropdown-select--focused {
+  border-color: #80bdff; }

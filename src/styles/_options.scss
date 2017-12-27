@@ -1,0 +1,22 @@
+.dropdown-select__options {
+  z-index: 9999;
+  position: absolute;
+  background-color: white;
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  width: 100%;
+
+  @import 'option';
+  @import 'checkbox_option';
+}
+
+.dropdown-select__options-open {
+  display: block;
+}
+
+.dropdown-select__options-close {
+  display: none;
+}
