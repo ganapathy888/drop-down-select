@@ -24,11 +24,11 @@
   display: inline-block;
   width: 25px;
   height: 36px;
-  float: right;
   cursor: pointer;
   border-left: 1px solid #ced4da;
   border-radius: 0 0.25rem 0.25rem 0;
-  position: relative;
+  position: absolute;
+  right: 0px;
 
   .dropdown-select__arrow-icon {
     position: absolute;

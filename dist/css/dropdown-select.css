@@ -8,8 +8,8 @@
     border: none;
     outline: none; }
   .dropdown-select .dropdown-select__container .dropdown-select__input {
-    width: calc(100% - 25px);
-    padding: 6px 12px;
+    padding: 6px 37px 6px 12px;
+    width: 100%;
     border-radius: 0.25rem; }
   .dropdown-select .dropdown-select__container .dropdown-select__arrow {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,eeeeee+100 */
@@ -26,11 +26,11 @@
     display: inline-block;
     width: 25px;
     height: 36px;
-    float: right;
     cursor: pointer;
     border-left: 1px solid #ced4da;
     border-radius: 0 0.25rem 0.25rem 0;
-    position: relative; }
+    position: absolute;
+    right: 0px; }
     .dropdown-select .dropdown-select__container .dropdown-select__arrow .dropdown-select__arrow-icon {
       position: absolute;
       top: 45%;
