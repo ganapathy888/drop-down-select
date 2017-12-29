@@ -14,9 +14,6 @@ class App extends Component {
   render() {
     return (
       <Layout>
-        <div style={{ padding: '25px' }}>
-          <Select options={['test']} value="" />
-        </div>
         <div className="container">
           <div className="row mt-5">
             <div className="col-lg-4">
