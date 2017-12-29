@@ -4,7 +4,7 @@ const Header = props => (
   <Fragment>
     <nav className="navbar navbar-dark bg-dark justify-content-between">
       <a className="navbar-brand" href="#">
-        DROPDOWN SELECT <span className="text-success">(3.0.0)</span>
+        DROPDOWN SELECT <span className="text-success">(3.0.4)</span>
         <span className="text-warning"> (DEMO)</span>
       </a>
       <ul className="nav">
@@ -38,4 +38,3 @@ const Header = props => (
 );
 
 export default Header;
-
