@@ -1,10 +1,12 @@
 .dropdown-select {
-  position: relative;
   width: 100%;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  position: relative;
 
   .dropdown-select__container {
+    position: relative;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+
     @import './input';
     @import './arrow';
     @import './select_deselect_all';

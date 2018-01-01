@@ -15,16 +15,16 @@ class AsyncSelectForm extends Component {
       <div className="async-select-form-example">
         <h5>Async Dropdown Select</h5>
         <p className="hint text-info">
-          (Uses CDNJS Public API to Fetch Options)
+          * Uses CDNJS Public API to Fetch Options
         </p>
         <Form onSubmit={this.handleSubmit} />
-        <div className="mt-5">
-          {lib && (
+        {lib && (
+          <div className="mt-5">
             <div className="alert alert-warning" role="alert">
               <pre>{JSON.stringify(lib, null, 4)}</pre>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }

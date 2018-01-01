@@ -10,16 +10,16 @@ class MultiSelectFormExample extends Component {
     return (
       <div>
         <h5>Multi Select</h5>
-        <p className="hint text-info">(Checkboxed Options)</p>
+        <p className="hint text-info">* Checkboxed Options</p>
         <Form />
-        <div className="mt-5">
-          {foods &&
-            foods.length > 0 && (
+        {foods &&
+          foods.length > 0 && (
+            <div className="mt-5">
               <div className="alert alert-warning" role="alert">
                 <pre>{JSON.stringify(foods, null, 4)}</pre>
               </div>
-            )}
-        </div>
+            </div>
+          )}
       </div>
     );
   }
