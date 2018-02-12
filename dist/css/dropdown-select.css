@@ -76,7 +76,7 @@
     z-index: 9999;
     position: absolute;
     background-color: white;
-    max-height: 200px;
+    max-height: 180px;
     overflow-x: hidden;
     overflow-y: auto;
     outline: none;
