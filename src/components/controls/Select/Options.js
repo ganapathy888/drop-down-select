@@ -43,7 +43,24 @@ class Options extends Component {
     panel = ReactDOM.findDOMNode(this);
     node = ReactDOM.findDOMNode(this.focusedOptionItem);
     if (node) {
-      panel.scrollTop = node.offsetTop - panel.offsetTop;
+      let nodePos = node.offsetHeight + node.offsetTop;
+      let panelPos = panel.offsetHeight + panel.scrollTop;
+      if (nodePos < panelPos && nodePos <= panel.offsetHeight) {
+        panel.scrollTop = 0;
+      } else if (
+        nodePos <= panelPos &&
+        nodePos + panel.offsetHeight <= panelPos
+      ) {
+        panel.scrollTop = panel.scrollTop - node.offsetHeight;
+      } else if (
+        nodePos <= panelPos &&
+        nodePos + panel.offsetHeight > panelPos
+      ) {
+        return;
+      } else {
+        let diff = Math.abs(nodePos - panelPos);
+        panel.scrollTop += diff;
+      }
     }
   }
 
@@ -90,7 +107,7 @@ class Options extends Component {
 
   renderOption(option, index) {
     const { focusedOptionIndex } = this.state;
-    const { labelKey, onOptionClick } = this.props;
+    const { labelKey, onOptionClick, onOptionFoucsed } = this.props;
     return (
       <Option
         key={index}
@@ -100,6 +117,7 @@ class Options extends Component {
         labelKey={labelKey}
         onClick={onOptionClick}
         ref={node => this.handleOptionRef(node, index)}
+        onMouseOver={onOptionFoucsed}
       />
     );
   }

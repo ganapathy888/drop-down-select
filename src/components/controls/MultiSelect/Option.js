@@ -35,7 +35,11 @@ class Option extends Component {
     const { option, index, labelKey, isFocused, isChecked } = this.props;
 
     return (
-      <div className={this._classes()} onClick={this.handleClick}>
+      <div
+        className={this._classes()}
+        onClick={this.handleClick}
+        onMouseOver={() => this.props.onMouseOver(index)}
+      >
         <input type="checkbox" checked={isChecked} readOnly />
         {labelKey ? option[labelKey] : option}
       </div>

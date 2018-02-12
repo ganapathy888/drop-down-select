@@ -25,6 +25,7 @@ class Option extends Component {
       <div
         className={this._classes()}
         onClick={() => this.props.onClick(option)}
+        onMouseOver={() => this.props.onMouseOver(index)}
       >
         {labelKey ? option[labelKey] : option}
       </div>

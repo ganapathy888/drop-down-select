@@ -161,6 +161,7 @@ class MultiSelect extends BaseSelect {
           labelKey={this.props.labelKey}
           onOptionClick={this.handleOptionClick}
           onMouseDown={this.handleOptionsMouseDown}
+          onOptionFoucsed={this.handleOptionFocused}
         />
       </div>
     );

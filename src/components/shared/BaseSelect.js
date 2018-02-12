@@ -14,8 +14,9 @@ class BaseSelect extends Component {
     this.handleOptionsMouseDown = this.handleOptionsMouseDown.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputFocus = this.handleInputFocus.bind(this);
-    this.showOptions = this.showOptions.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleOptionFocused = this.handleOptionFocused.bind(this);
+    this.showOptions = this.showOptions.bind(this);
     this._changeValueIfReq = this._changeValueIfReq.bind(this);
   }
 
@@ -87,6 +88,10 @@ class BaseSelect extends Component {
         this.showOptions(true);
         break;
     }
+  }
+
+  handleOptionFocused(index) {
+    this.setState({ focusedOptionIndex: index });
   }
 
   // Private
