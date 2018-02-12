@@ -1,6 +1,6 @@
 {
   "name": "dropdown-select",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "A Dropdown Select Control for React JS",
   "main": "lib/index.js",
   "files": [
