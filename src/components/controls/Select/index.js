@@ -23,6 +23,13 @@ class Select extends BaseSelect {
       disabled: false,
       autoComplete: true
     };
+    this.handleOptionsContainerRef = this.handleOptionsContainerRef.bind(this);
+  }
+
+  // Handlers
+  handleOptionsContainerRef(ref) {
+    this.optionsContainer = ref;
+    this.optionsContainerNode = ReactDOM.findDOMNode(ref);
   }
 
   // Render
@@ -50,7 +57,7 @@ class Select extends BaseSelect {
             onBlur={this.handleInputBlur}
             onChange={this.handleInputChange}
             onClick={this.handleInputClick}
-            onKeyDown={this.handleKeyPress}
+            onKeyDown={e => this.optionsContainer.handleKeyDown(e)}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -63,7 +70,7 @@ class Select extends BaseSelect {
           />
         </div>
         <Options
-          ref={el => (this.optionsContainer = ReactDOM.findDOMNode(el))}
+          ref={this.handleOptionsContainerRef}
           options={currentOptions}
           focusedOptionIndex={focusedOptionIndex}
           selectedOptionIndex={selectedOptionIndex}

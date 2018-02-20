@@ -8,11 +8,12 @@ import classNames from '../../../utils/classNames';
 class Option extends Component {
   // Private
   _classes() {
-    const { isFocused, optionClassName } = this.props;
+    const { isSelected, isFocused, optionClassName } = this.props;
     return classNames(
       {
         'dropdown-select__options__option': !optionClassName,
-        'dropdown-select__options__option--focused': isFocused
+        'dropdown-select__options__option--focused': isFocused,
+        'dropdown-select__options__option--selected': isSelected
       },
       optionClassName
     );

@@ -31,7 +31,6 @@ class BaseSelect extends Component {
 
   // Handlers
   handleInputChange(newValue) {
-    this.setState({ focusedOptionIndex: 0 });
     this._filterOptions(newValue.target.value);
   }
 
@@ -65,29 +64,6 @@ class BaseSelect extends Component {
 
   handleKeyPress(e) {
     const { currentOptions, focusedOptionIndex } = this.state;
-    switch (e.keyCode) {
-      case 40: // Down Arrow
-        e.preventDefault();
-        e.stopPropagation();
-        this._navigateOptions('down');
-        break;
-      case 38: // Up Arrow
-        e.preventDefault();
-        e.stopPropagation();
-        this._navigateOptions('up');
-        break;
-      case 13: // Enter
-        e.preventDefault();
-        e.stopPropagation();
-        this._changeOption(currentOptions[focusedOptionIndex]);
-        break;
-      case 27: // Esc
-        this.showOptions(false);
-        break;
-      case 8: // Backspace
-        this.showOptions(true);
-        break;
-    }
   }
 
   handleOptionFocused(index) {
@@ -244,25 +220,6 @@ class BaseSelect extends Component {
 
   _findSubStringIndex(str, sub) {
     return str.toLowerCase().indexOf(sub.toLowerCase());
-  }
-
-  _navigateOptions(dir) {
-    if (!this.state.isOptionsOpen) {
-      this.showOptions(true);
-      return;
-    }
-    let { focusedOptionIndex, currentOptions } = this.state;
-    if (dir == 'down') {
-      focusedOptionIndex += 1;
-    } else if (dir == 'up') {
-      focusedOptionIndex -= 1;
-    }
-    if (focusedOptionIndex < 0) {
-      focusedOptionIndex = currentOptions.length - 1;
-    } else if (focusedOptionIndex > currentOptions.length - 1) {
-      focusedOptionIndex = 0;
-    }
-    this.setState({ focusedOptionIndex });
   }
 
   showOptions(flag) {
