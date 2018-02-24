@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { MultiSelect } from '../../../src';
+import { MultiSelect } from 'dropdown-select';
 
 class MultiSelectForm extends Component {
   constructor(props) {

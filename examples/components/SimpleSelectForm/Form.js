@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Select } from '../../../src';
+import { Select } from 'dropdown-select';
 
 class Form extends Component {
   // Render
@@ -10,11 +10,7 @@ class Form extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <Field name="country" options={options} component={this.renderField} />
-        <button
-          className="btn mt-3"
-          type="button"
-          onClick={() => this.props.reset()}
-        >
+        <button className="btn mt-3" type="button" onClick={() => this.props.reset()}>
           Reset
         </button>
       </form>
@@ -22,15 +18,13 @@ class Form extends Component {
   }
 
   renderField({ input, options }) {
-    return (
-      <Select {...input} options={options} labelKey="name" valueKey="id" />
-    );
+    return <Select {...input} options={options} labelKey="name" valueKey="id" />;
   }
 }
 
 const ReduxForm = reduxForm({
   // a unique name for the form
-  form: 'simpleSelectForm'
+  form: 'simpleSelectForm',
 })(Form);
 
 export default ReduxForm;

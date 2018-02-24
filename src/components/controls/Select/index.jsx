@@ -21,7 +21,8 @@ class Select extends BaseSelect {
       selectedOptionIndex: 0,
       inputFoucsed: false,
       disabled: false,
-      autoComplete: true
+      autoComplete: true,
+      value: undefined,
     };
     this.handleOptionsContainerRef = this.handleOptionsContainerRef.bind(this);
   }
@@ -41,7 +42,7 @@ class Select extends BaseSelect {
       currentOptions,
       focusedOptionIndex,
       selectedOptionIndex,
-      disabled
+      disabled,
     } = this.state;
     return (
       <div className={this._getSelectClassName()}>

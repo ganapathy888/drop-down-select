@@ -3,10 +3,7 @@
   "version": "3.1.0",
   "description": "A Dropdown Select Control for React JS",
   "main": "lib/index.js",
-  "files": [
-    "lib",
-    "dist"
-  ],
+  "files": ["lib", "dist"],
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js",
@@ -18,13 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/ganapathy888/dropdown-select.git"
   },
-  "keywords": [
-    "Dropdown",
-    "Select",
-    "Control",
-    "React",
-    "JS"
-  ],
+  "keywords": ["Dropdown", "Select", "Control", "React", "JS"],
   "author": "Thanga Ganapathy",
   "license": "ISC",
   "bugs": {
@@ -32,9 +23,14 @@
   },
   "homepage": "https://github.com/ganapathy888/dropdown-select#readme",
   "dependencies": {},
+  "peerDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -43,11 +39,15 @@
     "clean-webpack-plugin": "^0.1.18",
     "copy-webpack-plugin": "^4.4.1",
     "css-loader": "^0.28.9",
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "jest": "^22.2.2",
     "node-sass": "^4.7.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-form": "^7.2.3",

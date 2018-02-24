@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import 'whatwg-fetch';
 
 // Local Imports
-import { AsyncSelect } from '../../../src';
+import { AsyncSelect } from 'dropdown-select';
 
 // Async Select Form
 class Form extends Component {
