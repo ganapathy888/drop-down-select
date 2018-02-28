@@ -1,6 +1,5 @@
 // Vendor Imports
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
 // Local Imports
 import BaseSelect from '../../shared/BaseSelect';
@@ -27,31 +26,26 @@ class Select extends BaseSelect {
     this.handleOptionsContainerRef = this.handleOptionsContainerRef.bind(this);
   }
 
-  // Handlers
-  handleOptionsContainerRef(ref) {
-    this.optionsContainer = ref;
-    this.optionsContainerNode = ReactDOM.findDOMNode(ref);
-  }
-
   // Render
   render() {
     const {
       placeholder,
       isOptionsOpen,
-      inputFoucsed,
       currentOptions,
       focusedOptionIndex,
       selectedOptionIndex,
       disabled,
     } = this.state;
     return (
-      <div className={this._getSelectClassName()}>
+      <div className={this.getSelectClassName()}>
         <div className="dropdown-select__container">
           <input
             tabIndex={this.props.tabIndex}
             disabled={disabled}
-            className={this._getInputClassName()}
-            ref={input => (this.input = input)}
+            className={this.getInputClassName()}
+            ref={(node) => {
+              this.input = node;
+            }}
             placeholder={placeholder}
             type="text"
             onFocus={this.handleInputFocus}
@@ -71,7 +65,9 @@ class Select extends BaseSelect {
           />
         </div>
         <Options
-          ref={this.handleOptionsContainerRef}
+          ref={(node) => {
+            this.optionsContainer = node;
+          }}
           options={currentOptions}
           focusedOptionIndex={focusedOptionIndex}
           selectedOptionIndex={selectedOptionIndex}

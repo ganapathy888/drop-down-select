@@ -6,22 +6,22 @@ class Arrow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOptionsOpen: false
+      isOptionsOpen: false,
     };
     this.handleMouseDown = this.handleMouseDown.bind(this);
   }
 
   // Component LifeCycle
   componentDidMount() {
-    this._loadProps(this.props);
+    this.loadProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this._loadProps(nextProps);
+    this.loadProps(nextProps);
   }
 
   // Private
-  _loadProps(props) {
+  loadProps(props) {
     const { isOptionsOpen } = props;
     this.setState({ isOptionsOpen });
   }
@@ -36,23 +36,24 @@ class Arrow extends Component {
   }
 
   // Render
+  renderArrow() {
+    if (this.state.isOptionsOpen) {
+      return <i className="dropdown-select__arrow-icon arrow-up" />;
+    }
+    return <i className="dropdown-select__arrow-icon arrow-down" />;
+  }
+
   render() {
     return (
       <div
+        role="button"
+        tabIndex="-1"
         className="dropdown-select__arrow"
         onMouseDown={this.handleMouseDown}
       >
         {this.renderArrow()}
       </div>
     );
-  }
-
-  renderArrow() {
-    if (this.state.isOptionsOpen) {
-      return <i className="dropdown-select__arrow-icon arrow-up" />;
-    } else {
-      return <i className="dropdown-select__arrow-icon arrow-down" />;
-    }
   }
 }
 

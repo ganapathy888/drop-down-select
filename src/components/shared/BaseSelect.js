@@ -23,11 +23,11 @@ class BaseSelect extends Component {
 
   // Component LifeCycle
   componentDidMount() {
-    this.loadProps(this.props, this.changeValueIfReq);
+    this.loadProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadProps(nextProps, this.changeValueIfReq);
+    this.loadProps(nextProps);
   }
 
   // Private
@@ -44,22 +44,6 @@ class BaseSelect extends Component {
     this.setState({ value });
   }
 
-  setInputValue(newValue, labelKey) {
-    const { options } = this.state;
-    const type = typeof newValue;
-    let inputValue = '';
-    if (options.length === 0) {
-      inputValue = '';
-    } else if (type === 'string' && newValue.length === 0) {
-      inputValue = '';
-    } else if (type === 'string') {
-      inputValue = this.findLabelByValue(newValue);
-    } else if (type === 'object' && !Array.isArray(newValue)) {
-      inputValue = newValue[labelKey];
-    }
-    this.input.value = inputValue;
-  }
-
   getOptionByLabel(label) {
     const { options } = this.state;
     const index = options.findIndex(option => this.getOptionLabel(option) === label);
@@ -70,17 +54,10 @@ class BaseSelect extends Component {
     return typeof option === 'object' ? option[this.props.labelKey] : option;
   }
 
-  setOptions(options, callback) {
-    if (!options) {
-      callback();
-      return;
+  setOptions(options) {
+    if (options) {
+      this.setState({ options, currentOptions: options });
     }
-    let optionsArr = [];
-    if (this.props.defaultOption) {
-      optionsArr = optionsArr.concat(this.props.defaultOption);
-    }
-    optionsArr = optionsArr.concat(options);
-    this.setState({ options: optionsArr, currentOptions: optionsArr }, callback);
   }
 
   getInputClassName() {
@@ -112,9 +89,9 @@ class BaseSelect extends Component {
     });
   }
 
-  loadProps(props, callback) {
+  loadProps(props) {
     const {
-      options, value, labelKey, autoComplete, placeholder, disabled,
+      options, value, autoComplete, placeholder, disabled,
     } = props;
     if (autoComplete === false) {
       this.input.readOnly = true;
@@ -126,18 +103,7 @@ class BaseSelect extends Component {
       this.setState({ disabled });
     }
     this.setValue(value);
-    this.setOptions(options, () => {
-      this.setInputValue(value, labelKey);
-      if (callback) {
-        callback();
-      }
-    });
-  }
-
-  findLabelByValue(value) {
-    const { options } = this.state;
-    const index = options.findIndex(option => option[this.props.valueKey].toLowerCase() === value.toLowerCase());
-    return options[index][this.props.labelKey];
+    this.setOptions(options);
   }
 
   filterOptions(newValue) {
@@ -178,27 +144,6 @@ class BaseSelect extends Component {
       const label = this.getOptionLabel(currentOption);
       if (label !== this.input.value) {
         this.input.value = label;
-      }
-    }
-  }
-
-  changeValueIfReq() {
-    const { value, returnValueOnly } = this.props;
-    if (!value || value.length === 0) {
-      return;
-    }
-    if (typeof value === 'string') {
-      const option = this.getOptionByLabel(this.findLabelByValue(value));
-      if (!option) {
-
-      } else if (!returnValueOnly) {
-        this.changeOption(option);
-      } else if (returnValueOnly) {
-        const index = this.findOptionIndexFromOptions(option);
-        this.setState({
-          focusedOptionIndex: index,
-          selectedOptionIndex: index,
-        });
       }
     }
   }
@@ -245,10 +190,6 @@ class BaseSelect extends Component {
     if (e.target !== this.optionsContainer) {
       this.setState({ isOptionSelected: true });
     }
-  }
-
-  handleKeyPress() {
-    const { currentOptions, focusedOptionIndex } = this.state;
   }
 
   handleOptionFocused(index) {
