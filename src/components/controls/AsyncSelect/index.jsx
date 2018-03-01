@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 // Local Imports
-import BaseSelect from '../../shared/BaseSelect';
-import Options from '../Select/Options';
-import Arrow from '../../shared/Arrow';
-import Spinner from '../../shared/Spinner';
+import BaseSelect from '../../core/BaseSelect';
+import OptionsContainer from '../Select/OptionsContainer';
+import Arrow from '../../core/Arrow';
+import Spinner from '../../core/Spinner';
 
 // Dropdown Async Select
 class AsyncSelect extends BaseSelect {
@@ -22,7 +22,7 @@ class AsyncSelect extends BaseSelect {
       selectedOptionIndex: 0,
       inputFoucsed: false,
       isLoading: false,
-      disabled: false
+      disabled: false,
     };
   }
 
@@ -37,7 +37,7 @@ class AsyncSelect extends BaseSelect {
     const { fetchOptions, labelKey } = this.props;
     if (this.props.fetchOptions) {
       this.setState({ isLoading: true });
-      this.props.fetchOptions(newValue).then(response => {
+      this.props.fetchOptions(newValue).then((response) => {
         this.setState({ isLoading: false });
         if (Array.isArray(response)) {
           this._setOptions(response);
@@ -55,7 +55,7 @@ class AsyncSelect extends BaseSelect {
       currentOptions,
       focusedOptionIndex,
       selectedOptionIndex,
-      disabled
+      disabled,
     } = this.state;
     return (
       <div className={this._getSelectClassName()}>
@@ -79,7 +79,7 @@ class AsyncSelect extends BaseSelect {
           />
           {this.renderSpinnerOrArrow()}
         </div>
-        <Options
+        <OptionsContainer
           ref={el => (this.optionsContainer = ReactDOM.findDOMNode(el))}
           options={currentOptions}
           focusedOptionIndex={focusedOptionIndex}
@@ -98,15 +98,10 @@ class AsyncSelect extends BaseSelect {
     const { isLoading, isOptionsOpen, disabled } = this.state;
     if (isLoading) {
       return <Spinner />;
-    } else {
-      return (
-        <Arrow
-          disabled={disabled}
-          isOptionsOpen={isOptionsOpen}
-          onShowOptions={this.showOptions}
-        />
-      );
     }
+    return (
+      <Arrow disabled={disabled} isOptionsOpen={isOptionsOpen} onShowOptions={this.showOptions} />
+    );
   }
 }
 

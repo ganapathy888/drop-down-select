@@ -2,9 +2,9 @@
 import React from 'react';
 
 // Local Imports
-import BaseSelect from '../../shared/BaseSelect';
-import Options from './Options';
-import Arrow from '../../shared/Arrow';
+import BaseSelect from '../../core/BaseSelect';
+import OptionsContainer from './OptionsContainer';
+import Arrow from '../../core/Arrow';
 
 // Dropdown Select
 class Select extends BaseSelect {
@@ -64,7 +64,7 @@ class Select extends BaseSelect {
             onShowOptions={this.showOptions}
           />
         </div>
-        <Options
+        <OptionsContainer
           ref={(node) => {
             this.optionsContainer = node;
           }}

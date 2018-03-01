@@ -1,11 +1,10 @@
 // Vendor Imports
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
 // Local Imports
-import BaseSelect from '../../shared/BaseSelect';
-import Options from './Options';
-import Arrow from '../../shared/Arrow';
+import BaseSelect from '../../core/BaseSelect';
+import OptionsContainer from './OptionsContainer';
+import Arrow from '../../core/Arrow';
 import SelectDeselectAll from './SelectDeselectAll';
 
 // Dropdown Select
@@ -21,7 +20,7 @@ class MultiSelect extends BaseSelect {
       focusedOptionIndex: 0,
       selectedOptionIndex: 0,
       inputFoucsed: false,
-      disabled: false
+      disabled: false,
     };
     this.handleCheckAllOptions = this.handleCheckAllOptions.bind(this);
   }
@@ -29,7 +28,7 @@ class MultiSelect extends BaseSelect {
   // Handlers
   handleOptionClick(option) {
     this.input.focus();
-    this._changeOption(option);
+    this.changeOption(option);
   }
 
   handleCheckAllOptions(flag) {
@@ -37,98 +36,96 @@ class MultiSelect extends BaseSelect {
   }
 
   // Private
-  _setValue(value) {
+  setValue(value) {
     const type = typeof value;
-    if (type == 'object' && Array.isArray(value)) {
+    if (type === 'object' && Array.isArray(value)) {
       this.setState({ value });
     }
   }
 
-  _changeOption(newOption) {
+  changeOption(newOption) {
     const { value } = this.state;
     const { labelKey, onChange } = this.props;
     let newValues = [];
-    const isChecked = !this._findCheckedOption(newOption);
+    const isChecked = !this.findCheckedOption(newOption);
     if (isChecked) {
       newValues = value.concat(newOption);
     } else {
-      newValues = value.filter(item => {
+      newValues = value.filter((item) => {
         if (labelKey) {
           return item[labelKey] !== newOption[labelKey];
-        } else {
-          return item !== newOption;
         }
+        return item !== newOption;
       });
     }
     this.setState({
       isOptionSelected: false,
-      focusedOptionIndex: this._findOptionIndexFromOptions(newOption),
-      inputFoucsed: true
+      focusedOptionIndex: this.findOptionIndexFromOptions(newOption),
+      inputFoucsed: true,
     });
     if (onChange) {
       this.props.onChange(newValues);
     }
   }
 
-  _findCheckedOption(option) {
-    return this._findOptionIndexFromValues(option) != -1;
+  findCheckedOption(option) {
+    return this.findOptionIndexFromValues(option) !== -1;
   }
 
-  _findOptionIndexFromValues(option) {
+  findOptionIndexFromValues(option) {
     const { labelKey } = this.props;
-    return this.state.value.findIndex(value => {
+    return this.state.value.findIndex((value) => {
       if (labelKey) {
-        return value[labelKey] == option[labelKey];
-      } else {
-        return value == option;
+        return value[labelKey] === option[labelKey];
       }
+      return value === option;
     });
   }
 
-  _renderPlaceholder() {
+  // Render
+  renderPlaceholder() {
     const { placeholder, value, options } = this.state;
-    let itemsCount = value.length;
+    const itemsCount = value.length;
     let singularName = 'Item';
     let pluralName = 'Items';
-    if (typeof placeholder == 'string' && placeholder.length > 0) {
-      singularName = pluralName = placeholder;
-    } else if (typeof placeholder == 'object' && Array.isArray(placeholder)) {
-      singularName = placeholder[0];
-      pluralName = placeholder[1];
+    if (typeof placeholder === 'string' && placeholder.length > 0) {
+      singularName = placeholder;
+      pluralName = placeholder;
+    } else if (typeof placeholder === 'object' && Array.isArray(placeholder)) {
+      [singularName] = placeholder;
+      [pluralName] = placeholder;
     }
-    if (itemsCount == options.length) {
+    if (itemsCount === options.length) {
       return `All ${pluralName}`;
-    } else if (itemsCount == 1) {
+    } else if (itemsCount === 1) {
       return `${itemsCount} ${singularName}`;
     } else if (itemsCount > 0) {
       return `${itemsCount} ${pluralName}`;
-    } else {
-      return `Select ${singularName}`;
     }
+    return `Select ${singularName}`;
   }
 
-  // Render
   render() {
     const {
-      placeholder,
       isOptionsOpen,
-      inputFoucsed,
       currentOptions,
       focusedOptionIndex,
       selectedOptionIndex,
       options,
       value,
-      disabled
+      disabled,
     } = this.state;
     return (
-      <div className={this._getSelectClassName()}>
+      <div className={this.getSelectClassName()}>
         <div className="dropdown-select__container">
           <input
             tabIndex={this.props.tabIndex}
             disabled={disabled}
-            className={this._getInputClassName()}
-            ref={input => (this.input = input)}
-            placeholder={this._renderPlaceholder()}
+            className={this.getInputClassName()}
+            ref={(node) => {
+              this.input = node;
+            }}
+            placeholder={this.renderPlaceholder()}
             type="text"
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
@@ -142,7 +139,7 @@ class MultiSelect extends BaseSelect {
           />
           <SelectDeselectAll
             disabled={disabled}
-            checked={options.length > 0 && options.length == value.length}
+            checked={options.length > 0 && options.length === value.length}
             onChange={this.handleCheckAllOptions}
           />
           <Arrow
@@ -151,8 +148,10 @@ class MultiSelect extends BaseSelect {
             onShowOptions={this.showOptions}
           />
         </div>
-        <Options
-          ref={el => (this.optionsContainer = ReactDOM.findDOMNode(el))}
+        <OptionsContainer
+          ref={(node) => {
+            this.optionsContainer = node;
+          }}
           options={currentOptions}
           values={value}
           focusedOptionIndex={focusedOptionIndex}

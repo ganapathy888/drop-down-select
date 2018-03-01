@@ -2,19 +2,10 @@
 import React, { Component } from 'react';
 
 // Local Imports
-import Option from './Option';
-import classNames from '../../../utils/classNames';
+import classNames from '../../utils/classNames';
 
-// Options
-class Options extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      focusedOptionIndex: 0,
-      options: [],
-    };
-  }
-
+// Options Container
+class BaseOptionsContainer extends Component {
   // Component LifeCycle
   componentDidMount() {
     this.loadProps(this.props);
@@ -138,41 +129,7 @@ class Options extends Component {
     }
     return <div className="dropdown-select__options__option">No options found...</div>;
   }
-
-  renderOption(option, index) {
-    const { focusedOptionIndex, selectedOptionIndex } = this.state;
-    const { labelKey, onOptionClick, onOptionFoucsed } = this.props;
-    return (
-      <Option
-        key={index}
-        index={index}
-        option={option}
-        isFocused={focusedOptionIndex === index}
-        isSelected={selectedOptionIndex === index}
-        labelKey={labelKey}
-        onClick={onOptionClick}
-        ref={node => this.handleOptionRef(node, index)}
-        onMouseOver={onOptionFoucsed}
-        onFocus={() => undefined}
-      />
-    );
-  }
-
-  render() {
-    return (
-      <div
-        ref={(node) => {
-          this.panel = node;
-        }}
-        role="presentation"
-        className={this.classes()}
-        onMouseDown={this.props.onMouseDown}
-      >
-        {this.renderOptions()}
-      </div>
-    );
-  }
 }
 
 // Export
-export default Options;
+export default BaseOptionsContainer;

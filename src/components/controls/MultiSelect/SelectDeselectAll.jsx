@@ -16,7 +16,7 @@ class SelectDeselectAll extends Component {
           disabled={this.props.disabled}
           type="checkbox"
           checked={this.props.checked}
-          onChange={this.onChange.bind(this)}
+          onChange={this.onChange}
         />
       </div>
     );
