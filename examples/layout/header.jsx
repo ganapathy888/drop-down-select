@@ -1,36 +1,27 @@
 import React, { Fragment } from 'react';
 
-const Header = props => (
+const Header = () => (
   <Fragment>
     <nav className="navbar navbar-dark bg-dark justify-content-between">
-      <a className="navbar-brand" href="#">
+      <span className="navbar-brand" href="#">
         DROPDOWN SELECT <span className="text-success">(3.1.0)</span>
         <span className="text-warning"> (DEMO)</span>
-      </a>
+      </span>
       <ul className="nav">
         <li className="nav-item">
-          <a
-            className="nav-link active"
-            href="https://github.com/ganapathy888/dropdown-select/"
-          >
+          <span className="nav-link active" href="https://github.com/ganapathy888/dropdown-select/">
             Github
-          </a>
+          </span>
         </li>
         <li className="nav-item">
-          <a
-            className="nav-link"
-            href="https://www.npmjs.com/package/dropdown-select"
-          >
+          <span className="nav-link" href="https://www.npmjs.com/package/dropdown-select">
             Npm
-          </a>
+          </span>
         </li>
         <li className="nav-item">
-          <a
-            className="nav-link"
-            href="https://yarnpkg.com/en/package/dropdown-select"
-          >
+          <span className="nav-link" href="https://yarnpkg.com/en/package/dropdown-select">
             Yarn
-          </a>
+          </span>
         </li>
       </ul>
     </nav>

@@ -1,6 +1,5 @@
 // Vendor Imports
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
 // Local Imports
 import BaseSelect from '../../core/BaseSelect';
@@ -28,43 +27,54 @@ class AsyncSelect extends BaseSelect {
 
   // Handlers
   handleInputChange(e) {
-    this._loadOptions(e.target.value);
+    this.loadOptions(e.target.value);
     this.setState({ focusedOptionIndex: 0 });
   }
 
   // Private
-  _loadOptions(newValue) {
-    const { fetchOptions, labelKey } = this.props;
-    if (this.props.fetchOptions) {
+  loadOptions(newValue) {
+    const { fetchOptions } = this.props;
+    if (fetchOptions) {
       this.setState({ isLoading: true });
-      this.props.fetchOptions(newValue).then((response) => {
+      fetchOptions(newValue).then((response) => {
         this.setState({ isLoading: false });
         if (Array.isArray(response)) {
-          this._setOptions(response);
+          this.setOptions(response);
         }
       });
     }
   }
 
   // Render
+  renderSpinnerOrArrow() {
+    const { isLoading, isOptionsOpen, disabled } = this.state;
+    if (isLoading) {
+      return <Spinner />;
+    }
+    return (
+      <Arrow disabled={disabled} isOptionsOpen={isOptionsOpen} onShowOptions={this.showOptions} />
+    );
+  }
+
   render() {
     const {
       placeholder,
       isOptionsOpen,
-      inputFoucsed,
       currentOptions,
       focusedOptionIndex,
       selectedOptionIndex,
       disabled,
     } = this.state;
     return (
-      <div className={this._getSelectClassName()}>
+      <div className={this.getSelectClassName()}>
         <div className="dropdown-select__container">
           <input
             tabIndex={this.props.tabIndex}
-            className={this._getInputClassName()}
+            className={this.getInputClassName()}
             disabled={disabled}
-            ref={input => (this.input = input)}
+            ref={(node) => {
+              this.input = node;
+            }}
             placeholder={placeholder}
             type="text"
             onFocus={this.handleInputFocus}
@@ -80,7 +90,9 @@ class AsyncSelect extends BaseSelect {
           {this.renderSpinnerOrArrow()}
         </div>
         <OptionsContainer
-          ref={el => (this.optionsContainer = ReactDOM.findDOMNode(el))}
+          ref={(node) => {
+            this.optionsContainer = node;
+          }}
           options={currentOptions}
           focusedOptionIndex={focusedOptionIndex}
           selectedOptionIndex={selectedOptionIndex}
@@ -91,16 +103,6 @@ class AsyncSelect extends BaseSelect {
           onOptionFoucsed={this.handleOptionFocused}
         />
       </div>
-    );
-  }
-
-  renderSpinnerOrArrow() {
-    const { isLoading, isOptionsOpen, disabled } = this.state;
-    if (isLoading) {
-      return <Spinner />;
-    }
-    return (
-      <Arrow disabled={disabled} isOptionsOpen={isOptionsOpen} onShowOptions={this.showOptions} />
     );
   }
 }

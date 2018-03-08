@@ -18,9 +18,9 @@ class Option extends Component {
       {
         'dropdown-select__options__option': !optionClassName,
         'dropdown-select__options__checkbox-option': !optionClassName,
-        'dropdown-select__options__option--focused': isFocused
+        'dropdown-select__options__option--focused': isFocused,
       },
-      optionClassName
+      optionClassName,
     );
   }
 
@@ -32,13 +32,20 @@ class Option extends Component {
 
   // Render
   render() {
-    const { option, index, labelKey, isFocused, isChecked } = this.props;
+    const {
+      option, index, labelKey, isChecked,
+    } = this.props;
 
     return (
       <div
-        className={this._classes()}
+        tabIndex={-1}
+        role="option"
+        aria-selected={isChecked}
+        className={this.classes()}
         onClick={this.handleClick}
         onMouseOver={() => this.props.onMouseOver(index)}
+        onFocus={() => undefined}
+        onKeyDown={() => undefined}
       >
         <input type="checkbox" checked={isChecked} readOnly />
         {labelKey ? option[labelKey] : option}
