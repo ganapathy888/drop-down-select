@@ -1,10 +1,14 @@
 {
-  parser: "babel-eslint",
+  "parser": "babel-eslint",
   "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
   "rules": {
     "react/prop-types": 0,
     "react/no-unused-state": 0,
     "no-console": 0,
-    "no-unused-expressions": [2, { "allowTernary": true }]
+    "no-unused-expressions": [2, { "allowTernary": true }],
+    "import/no-extraneous-dependencies": 0
   }
 }

@@ -1,9 +1,8 @@
 // Imports
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
 const copyWebpackPlugin = new CopyWebpackPlugin([
   {
@@ -13,7 +12,13 @@ const copyWebpackPlugin = new CopyWebpackPlugin([
 ]);
 
 // Export
-module.exports = merge(common, {
+module.exports = {
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      'dropdown-select': path.resolve(__dirname, 'src/'),
+    },
+  },
   entry: {
     app: './examples/index.jsx',
   },
@@ -24,6 +29,16 @@ module.exports = merge(common, {
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader'],
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader'],
+      },
       {
         test: /\.scss$/,
         use: [
@@ -44,6 +59,6 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(['build']),
     copyWebpackPlugin,
     new webpack.NamedModulesPlugin(),
-    +new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
-});
+};
