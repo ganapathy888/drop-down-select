@@ -3,6 +3,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const copyWebpackPlugin = new CopyWebpackPlugin([
   {
@@ -10,6 +12,11 @@ const copyWebpackPlugin = new CopyWebpackPlugin([
     to: 'index.html',
   },
 ]);
+
+const extractSass = new ExtractTextPlugin({
+  filename: '[name].[contenthash].css',
+  disable: process.env.NODE_ENV === 'development',
+});
 
 // Export
 module.exports = {
@@ -21,6 +28,9 @@ module.exports = {
   },
   entry: {
     app: './examples/index.jsx',
+  },
+  output: {
+    filename: 'bundle.js',
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -41,23 +51,32 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [
-          {
-            loader: 'style-loader', // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader', // translates CSS into CommonJS
-          },
-          {
-            loader: 'sass-loader', // compiles Sass to CSS
-          },
-        ],
+        use: extractSass.extract({
+          use: [
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+          // use style-loader in development
+          fallback: 'style-loader',
+        }),
       },
     ],
   },
   plugins: [
+    new ProgressBarPlugin({
+      format: 'Build [:bar] :percent (:elapsed seconds)',
+      clear: false,
+    }),
     new CleanWebpackPlugin(['build']),
     copyWebpackPlugin,
+    extractSass,
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],

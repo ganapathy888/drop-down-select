@@ -14,9 +14,7 @@ class AsyncSelectForm extends Component {
     return (
       <div className="async-select-form-example">
         <h5>Async Dropdown Select</h5>
-        <p className="hint text-info">
-          (Uses CDNJS Public API to Fetch Options)
-        </p>
+        <p className="hint text-info">(Uses CDNJS Public API to Fetch Options)</p>
         <Form onSubmit={this.handleSubmit} />
         <div className="mt-5">
           {lib && (
@@ -35,5 +33,5 @@ const selector = formValueSelector('asyncSelectFrom');
 
 // Export
 export default connect(state => ({
-  lib: selector(state, 'lib')
+  lib: selector(state, 'lib'),
 }))(AsyncSelectForm);

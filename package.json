@@ -3,7 +3,10 @@
   "version": "3.1.0",
   "description": "A Dropdown Select Control for React JS",
   "main": "lib/index.js",
-  "files": ["lib", "dist"],
+  "files": [
+    "lib",
+    "dist"
+  ],
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --progress --config webpack.prod.js",
@@ -15,7 +18,13 @@
     "type": "git",
     "url": "git+https://github.com/ganapathy888/dropdown-select.git"
   },
-  "keywords": ["Dropdown", "Select", "Control", "React", "JS"],
+  "keywords": [
+    "Dropdown",
+    "Select",
+    "Control",
+    "React",
+    "JS"
+  ],
   "author": "Thanga Ganapathy",
   "license": "ISC",
   "bugs": {
@@ -46,8 +55,9 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
-    "jest": "^22.4.2",
+    "jest": "^23.0.0-alpha.0",
     "node-sass": "^4.7.2",
+    "progress-bar-webpack-plugin": "^1.11.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",

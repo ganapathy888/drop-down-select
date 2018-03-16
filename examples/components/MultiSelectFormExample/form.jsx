@@ -1,11 +1,24 @@
+// Vendor Imports
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { MultiSelect } from 'dropdown-select';
 
+// Local Imports
+import MultiSelectField from '../formFields/MultiSelectField';
+
+// Component
 class MultiSelectForm extends Component {
-  constructor(props) {
-    super(props);
-    this.renderMultiSelectField = this.renderMultiSelectField.bind(this);
+  // Private
+  static options() {
+    return [
+      { id: 'Pizza', label: 'Pizza' },
+      { id: 'Chocolate', label: 'Chocolate' },
+      { id: 'Ice Cream', label: 'Ice Cream' },
+      { id: 'Steak', label: 'Steak' },
+      { id: 'French Fries', label: 'French Fries' },
+      { id: 'Burgers', label: 'Burgers' },
+      { id: 'Taco', label: 'Taco' },
+      { id: 'Cake', label: 'Cake' },
+    ];
   }
 
   // Component LifeCycle
@@ -14,42 +27,12 @@ class MultiSelectForm extends Component {
   }
 
   // Render
-  renderMultiSelectField({ input, options }) {
-    return (
-      <MultiSelect
-        {...input}
-        options={options}
-        labelKey="label"
-        valueKey="id"
-        placeholderName={['timeslot', 'timeslots']}
-      />
-    );
-  }
-
   render() {
-    const { handleSubmit, foodValues } = this.props;
-    const options = [
-      { id: 'Pizza', label: 'Pizza' },
-      { id: 'Chocolate', label: 'Chocolate' },
-      { id: 'Ice Cream', label: 'Ice Cream' },
-      { id: 'Steak', label: 'Steak' },
-      { id: 'French Fries', label: 'French Fries' },
-      { id: 'Burgers', label: 'Burgers' },
-      { id: 'Taco', label: 'Taco' },
-      { id: 'Cake', label: 'Cake' }
-    ];
+    const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <Field
-          name="foods"
-          options={options}
-          component={this.renderMultiSelectField}
-        />
-        <button
-          className="btn mt-3"
-          type="button"
-          onClick={() => this.props.reset()}
-        >
+        <Field name="foods" options={MultiSelectForm.options()} component={MultiSelectField} />
+        <button className="btn mt-3" type="button" onClick={() => this.props.reset()}>
           Reset
         </button>
       </form>
@@ -60,7 +43,7 @@ class MultiSelectForm extends Component {
 // Redux Form
 const ReduxMultiSelectForm = reduxForm({
   // a unique name for the form
-  form: 'multiSelectForm'
+  form: 'multiSelectForm',
 })(MultiSelectForm);
 
 // Export
