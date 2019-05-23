@@ -1,15 +1,10 @@
 # dropdown-select
 
-A group of dropdown select controls for React JS.
+> A group of dropdown select controls for React JS.
 
 ### Demo
 
-Live Demo:
-[https://ganapathy888.github.io/dropdown-select]('https://ganapathy888.github.io/dropdown-select')
-
-### Examples
-
-[Browse Examples](examples)
+[Live Demo:](https://ganapathy888.github.io/dropdown-select)
 
 ### Features
 
